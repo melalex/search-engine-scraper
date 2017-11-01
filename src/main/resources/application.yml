@@ -37,6 +37,7 @@ scraper:
     delay: 480000
     errorDelay: 480000
     linkSelector: "#web > ol > li > div > div > h3 > a"
+    first: 1
     resultCount: 100
     pageSize: 100
     useProxy: true
@@ -46,6 +47,7 @@ scraper:
     delay: 480000
     errorDelay: 480000
     linkSelector:
+    first: 0
     resultCount: 100
     pageSize: 100
     useProxy: true
@@ -55,6 +57,7 @@ scraper:
     delay: 480000
     errorDelay: 480000
     linkSelector:
+    first: 0
     resultCount: 100
     pageSize: 100
     useProxy: true
