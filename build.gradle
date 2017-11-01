@@ -1,0 +1,52 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.0.M5'
+    }
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.zephyr'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_1_9
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+}
+
+ext {
+    guavaVersion = '23.3-jre'
+    jsoupVersion = '1.10.3'
+}
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter'
+    compile group: 'org.springframework', name: 'spring-webflux'
+    compile group: 'org.springframework', name: 'spring-web'
+    compile group: 'io.projectreactor', name: 'reactor-core'
+    compile group: 'io.projectreactor.addons', name: 'reactor-extra'
+    compile group: 'io.projectreactor.ipc', name: 'reactor-netty'
+    compile group: 'org.apache.commons', name: 'commons-lang3'
+
+    compile group: 'com.google.guava', name: 'guava', version: guavaVersion
+    compile group: 'org.jsoup', name: 'jsoup', version: jsoupVersion
+
+    compileOnly group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
+    compileOnly group: 'org.projectlombok', name: 'lombok'
+
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testCompile group: 'io.projectreactor', name: 'reactor-test'
+}

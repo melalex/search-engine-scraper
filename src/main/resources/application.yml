@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: scraper
+
+logging:
+  level:
+    org.springframework.security: INFO
+
+browser:
+  firstBackoff: 5000
+  maxBackoff: 300000
+  retryCount: 3
+
+scraper:
+  google:
+    enabled: true
+    delay: 480000
+    errorDelay: 480000
+    linkSelector: "#rso > div > div > div > div > div > h3 > a"
+    resultCount: 100
+    pageSize: 100
+    useProxy: true
+
+  bing:
+    enabled: true
+    delay: 480000
+    errorDelay: 480000
+    linkSelector: "#b_results > li > h2 > a"
+    resultCount: 100
+    pageSize: 10
+    useProxy: true
+
+  yahoo:
+    enabled: true
+    delay: 480000
+    errorDelay: 480000
+    linkSelector: "#web > ol > li > div > div > h3 > a"
+    resultCount: 100
+    pageSize: 100
+    useProxy: true
+
+  yandex:
+    enabled: true
+    delay: 480000
+    errorDelay: 480000
+    linkSelector: ".main__content > div > div > ul > li > div > h2 > a"
+    resultCount: 100
+    pageSize: 100
+    useProxy: true
+
+  duckduckgo:
+    enabled: true
+    delay: 480000
+    errorDelay: 480000
+    linkSelector: "a.result__a"
+    resultCount: 100
+    pageSize: 100
+    useProxy: true

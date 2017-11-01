@@ -1,0 +1,13 @@
+### Intellij ###
+.idea/
+*.iml
+*.iws
+out/
+
+### Gradle ###
+build/
+.gradle/
+!/gradle/
+
+### Mac ###
+.DS_Store
