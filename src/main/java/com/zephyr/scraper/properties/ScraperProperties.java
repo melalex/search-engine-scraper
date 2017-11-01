@@ -25,6 +25,7 @@ public class ScraperProperties {
         private boolean useProxy;
         private long delay;
         private long errorDelay;
+        private int first;
         private int resultCount;
         private int pageSize;
         private String linkSelector;

@@ -2,6 +2,7 @@ package com.zephyr.scraper.query.provider.impl;
 
 import com.zephyr.scraper.domain.ScraperTask;
 import com.zephyr.scraper.domain.SearchEngine;
+import com.zephyr.scraper.query.internal.Page;
 import com.zephyr.scraper.utils.MapUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,7 @@ public class DuckDuckGoQueryProvider extends AbstractQueryProvider {
 
     // TODO: Improve me
     @Override
-    protected Map<String, ?> providePage(ScraperTask task, int page, int pageSize) {
+    protected Map<String, ?> providePage(ScraperTask task, Page page) {
         return MapUtils.<String, Object>builder()
                 .put(QUERY, task.getWord())
                 .put(SAFE, NOT_SAFE)

@@ -9,9 +9,11 @@ import com.zephyr.scraper.query.QueryConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
 @Slf4j
+@Component
 public class ScrapingFlowImpl implements ScrapingFlow {
 
     @Setter(onMethod = @__(@Autowired))

@@ -2,8 +2,8 @@ package com.zephyr.scraper.query.provider.impl;
 
 import com.zephyr.scraper.domain.ScraperTask;
 import com.zephyr.scraper.domain.SearchEngine;
+import com.zephyr.scraper.query.internal.Page;
 import com.zephyr.scraper.utils.MapUtils;
-import com.zephyr.scraper.utils.PaginationUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
@@ -35,14 +35,12 @@ public class YahooQueryProvider extends AbstractQueryProvider {
     }
 
     @Override
-    protected Map<String, ?> providePage(ScraperTask task, int page, int pageSize) {
-        int first = PaginationUtils.startOf(page, pageSize);
-
+    protected Map<String, ?> providePage(ScraperTask task, Page page) {
         return MapUtils.<String, Object>builder()
                 .put(QUERY, task.getWord())
                 .put(ENCODING, UTF8)
-                .put(COUNT, pageSize)
-                .putIfTrue(START, first, PaginationUtils.isNotFirst(first))
+                .put(COUNT, page.getPageSize())
+                .putIfTrue(START, page.getStart(), page.isNotFirst())
                 .build();
     }
 }

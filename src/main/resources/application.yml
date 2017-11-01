@@ -17,6 +17,7 @@ scraper:
     delay: 480000
     errorDelay: 480000
     linkSelector: "#rso > div > div > div > div > div > h3 > a"
+    first: 0
     resultCount: 100
     pageSize: 100
     useProxy: true
@@ -26,6 +27,7 @@ scraper:
     delay: 480000
     errorDelay: 480000
     linkSelector: "#b_results > li > h2 > a"
+    first: 1
     resultCount: 100
     pageSize: 10
     useProxy: true
@@ -40,19 +42,19 @@ scraper:
     useProxy: true
 
   yandex:
-    enabled: true
+    enabled: false
     delay: 480000
     errorDelay: 480000
-    linkSelector: ".main__content > div > div > ul > li > div > h2 > a"
+    linkSelector:
     resultCount: 100
     pageSize: 100
     useProxy: true
 
   duckduckgo:
-    enabled: true
+    enabled: false
     delay: 480000
     errorDelay: 480000
-    linkSelector: "a.result__a"
+    linkSelector:
     resultCount: 100
     pageSize: 100
     useProxy: true
