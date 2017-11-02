@@ -1,4 +1,4 @@
-package com.zephyr.scraper.loader.internal;
+package com.zephyr.scraper.loader.agent.model;
 
 import lombok.Value;
 

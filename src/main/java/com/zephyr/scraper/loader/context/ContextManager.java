@@ -1,13 +1,13 @@
 package com.zephyr.scraper.loader.context;
 
-import com.zephyr.scraper.domain.PageRequest;
 import com.zephyr.scraper.domain.Request;
-import com.zephyr.scraper.loader.internal.RequestContext;
+import com.zephyr.scraper.loader.context.model.RequestContext;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface ContextManager {
 
-    Mono<RequestContext> await(Request request, PageRequest page);
+    Flux<RequestContext> toContext(Request request);
 
-    void report(RequestContext context);
+    Mono<RequestContext> retry(RequestContext context);
 }

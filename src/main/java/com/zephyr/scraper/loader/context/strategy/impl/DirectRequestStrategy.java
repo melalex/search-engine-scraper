@@ -1,6 +1,7 @@
 package com.zephyr.scraper.loader.context.strategy.impl;
 
-import com.zephyr.scraper.loader.internal.RequestContext;
+import com.zephyr.scraper.loader.context.strategy.RequestStrategy;
+import com.zephyr.scraper.loader.context.model.RequestContext;
 import com.zephyr.scraper.domain.SearchEngine;
 import com.zephyr.scraper.properties.ScraperProperties;
 import lombok.Setter;
@@ -17,51 +18,38 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
-public class DirectRequestStrategy extends AbstractRequestStrategy {
+public class DirectRequestStrategy implements RequestStrategy {
     private final Map<SearchEngine, LocalDateTime> direct = new ConcurrentHashMap<>();
 
     @Setter(onMethod = @__(@Autowired))
     private ScraperProperties properties;
 
     @Override
-    protected Mono<RequestContext> handle(RequestContext context) {
-        int page = context.getPage().getNumber();
-        String task = context.getTask().getId();
-        SearchEngine engine = context.getProvider();
+    public Mono<RequestContext> configure(SearchEngine engine, RequestContext.RequestContextBuilder builder) {
         Duration timeout = Duration.ofMillis(properties.getScraper(engine).getDelay());
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime schedule = direct.compute(engine, (k, v) -> reserve(now, v, timeout));
-        Duration duration = Duration.between(now, schedule);
 
-        log.info("Schedule direct request on {} for TaskDto {}, page {} and Engine {}", schedule, task, page, engine);
-
-        return Mono.delay(duration)
-                .then(Mono.just(context));
+        return Mono.just(builder.duration(Duration.between(now, schedule)).build());
     }
 
     @Override
-    public void report(RequestContext context) {
-        int page = context.getPage().getNumber();
-        String task = context.getTask().getId();
+    public Mono<Void> report(RequestContext context) {
         SearchEngine engine = context.getProvider();
         Duration timeout = Duration.ofMillis(properties.getScraper(engine).getErrorDelay());
 
         direct.compute(engine, (k, v) -> relax(v, timeout));
 
-        log.info("Direct request error handled for TaskDto {} and Engine {} on {} page", task, engine, page);
+        return Mono.empty();
     }
 
     private LocalDateTime reserve(LocalDateTime now, LocalDateTime previous, Duration duration) {
-        if (previous == null || previous.isBefore(now)) {
-            return now;
-        }
-
-        return previous.plus(duration);
+        return previous == null || previous.isBefore(now) ? now : previous.plus(duration);
     }
 
     private LocalDateTime relax(LocalDateTime previous, Duration duration) {
         return Optional.ofNullable(previous)
-                .orElseThrow(() -> new IllegalStateException("report method should be called after await"))
+                .orElseThrow(() -> new IllegalStateException("report method should be called after configure"))
                 .plus(duration);
     }
 }

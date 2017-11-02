@@ -1,13 +1,12 @@
 package com.zephyr.scraper.loader.context.strategy;
 
-import com.zephyr.scraper.domain.PageRequest;
-import com.zephyr.scraper.domain.Request;
-import com.zephyr.scraper.loader.internal.RequestContext;
+import com.zephyr.scraper.domain.SearchEngine;
+import com.zephyr.scraper.loader.context.model.RequestContext;
 import reactor.core.publisher.Mono;
 
 public interface RequestStrategy {
 
-    Mono<RequestContext> toContext(Request request, PageRequest page);
+    Mono<RequestContext> configure(SearchEngine engine, RequestContext.RequestContextBuilder builder);
 
-    void report(RequestContext context);
+    Mono<Void> report(RequestContext context);
 }

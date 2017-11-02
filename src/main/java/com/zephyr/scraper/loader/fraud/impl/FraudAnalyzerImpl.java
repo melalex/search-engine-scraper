@@ -1,7 +1,7 @@
 package com.zephyr.scraper.loader.fraud.impl;
 
 import com.zephyr.scraper.domain.PageResponse;
-import com.zephyr.scraper.loader.internal.RequestContext;
+import com.zephyr.scraper.loader.context.model.RequestContext;
 import com.zephyr.scraper.domain.SearchEngine;
 import com.zephyr.scraper.loader.exceptions.FraudException;
 import com.zephyr.scraper.loader.fraud.FraudAnalyzer;
@@ -20,8 +20,8 @@ public class FraudAnalyzerImpl implements FraudAnalyzer {
 
     @Override
     public void analyze(RequestContext context, PageResponse response) {
-        int page = context.getPage().getNumber();
-        String task = context.getTask().getId();
+        int page = context.getNumber();
+        String task = context.getTaskId();
         SearchEngine engine = context.getProvider();
 
         if (manager.manage(engine).provide(response)) {

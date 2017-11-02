@@ -2,7 +2,7 @@ package com.zephyr.scraper.loader.content;
 
 import com.zephyr.scraper.domain.PageResponse;
 import com.zephyr.scraper.domain.SearchEngine;
-import com.zephyr.scraper.loader.internal.AgentResponse;
+import com.zephyr.scraper.loader.agent.model.AgentResponse;
 
 public interface ResponseExtractor {
 

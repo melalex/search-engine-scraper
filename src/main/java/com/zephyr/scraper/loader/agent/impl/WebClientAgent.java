@@ -1,58 +1,51 @@
 package com.zephyr.scraper.loader.agent.impl;
 
+import com.google.common.net.HttpHeaders;
 import com.zephyr.scraper.domain.Proxy;
 import com.zephyr.scraper.loader.agent.Agent;
-import com.zephyr.scraper.loader.internal.AgentResponse;
+import com.zephyr.scraper.loader.agent.model.AgentResponse;
+import com.zephyr.scraper.loader.context.model.RequestContext;
 import com.zephyr.scraper.loader.exceptions.AgentException;
-import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.function.Supplier;
 
-@NoArgsConstructor(staticName = "create")
+@Slf4j
+@Component
 public class WebClientAgent implements Agent {
-    private final Map<String, List<String>> headers = new HashMap<>();
+    private static final String DO_NOT_TRACK = "DNT";
+    private static final String UPGRADE_INSECURE_REQUESTS = "Upgrade-Insecure-Requests";
+    private static final String ACCEPT = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
+    private static final String ENCODING = "gzip, deflate, br";
+    private static final String KEEP_ALIVE = "keep-alive";
+    private static final String TRUE = "1";
+
     private final ClientHttpConnector directConnector = new ReactorClientHttpConnector();
 
-    private Proxy proxy;
-
-
     @Override
-    public Agent header(String name, String value) {
-        headers.put(name, List.of(value));
-        return this;
-    }
+    public Mono<AgentResponse> get(RequestContext context) {
+        log.info("Creating Agent for Task {} and Engine {} on {} page",
+                context.getTaskId(), context.getProvider(), context.getNumber());
 
-    @Override
-    public Agent header(String name, String value, Supplier<Boolean> condition) {
-        if (condition.get()) {
-            headers.put(name, List.of(value));
-        }
-
-        return this;
-    }
-
-    @Override
-    public Agent proxy(Proxy proxy) {
-        this.proxy = proxy;
-        return this;
-    }
-
-    @Override
-    public Mono<AgentResponse> get(String uri, Map<String, ?> params) {
         // @formatter:off
         return WebClient.builder()
-                    .clientConnector(connector())
-                    .baseUrl(uri)
-                    .defaultUriVariables(params)
-                    .defaultHeaders(h -> h.putAll(headers))
+                    .clientConnector(connector(context.getProxy()))
+                    .baseUrl(context.getFullUrl())
+                    .defaultUriVariables(context.getParams())
+                    .defaultHeader(HttpHeaders.REFERER, context.getBaseUrl())
+                    .defaultHeader(HttpHeaders.USER_AGENT, context.getUserAgent())
+                    .defaultHeader(HttpHeaders.ACCEPT_LANGUAGE, context.getLanguageIso())
+                    .defaultHeader(HttpHeaders.ACCEPT, ACCEPT)
+                    .defaultHeader(HttpHeaders.ACCEPT_ENCODING, ENCODING)
+                    .defaultHeader(HttpHeaders.CONNECTION, KEEP_ALIVE)
+                    .defaultHeader(HttpHeaders.UPGRADE, TRUE)
+                    .defaultHeader(DO_NOT_TRACK, TRUE)
+                    .defaultHeader(UPGRADE_INSECURE_REQUESTS, TRUE)
                 .build()
                 .get()
                     .exchange()
@@ -62,7 +55,7 @@ public class WebClientAgent implements Agent {
         // @formatter:on
     }
 
-    private ClientHttpConnector connector() {
+    private ClientHttpConnector connector(Proxy proxy) {
         if (Objects.nonNull(proxy)) {
             return new ReactorClientHttpConnector(b -> b.httpProxy(
                     a -> a.host(proxy.getIp())

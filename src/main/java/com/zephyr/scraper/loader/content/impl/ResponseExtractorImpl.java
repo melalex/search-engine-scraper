@@ -1,18 +1,16 @@
 package com.zephyr.scraper.loader.content.impl;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
 import com.zephyr.scraper.domain.PageResponse;
 import com.zephyr.scraper.domain.SearchEngine;
 import com.zephyr.scraper.loader.content.ResponseExtractor;
 import com.zephyr.scraper.loader.content.provider.ContentProvider;
 import com.zephyr.scraper.loader.content.provider.impl.DuckDuckGoContentProvider;
 import com.zephyr.scraper.loader.content.provider.impl.YandexContentProvider;
-import com.zephyr.scraper.loader.internal.AgentResponse;
+import com.zephyr.scraper.loader.agent.model.AgentResponse;
 import com.zephyr.scraper.utils.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

@@ -1,6 +1,7 @@
 package com.zephyr.scraper.loader.context.strategy.impl;
 
-import com.zephyr.scraper.loader.internal.RequestContext;
+import com.zephyr.scraper.loader.context.strategy.RequestStrategy;
+import com.zephyr.scraper.loader.context.model.RequestContext;
 import com.zephyr.scraper.domain.SearchEngine;
 import com.zephyr.scraper.loader.context.ProxySource;
 import lombok.Setter;
@@ -17,35 +18,20 @@ import static java.time.LocalDateTime.now;
 @Slf4j
 @Component
 @ConditionalOnBean(ProxySource.class)
-public class ProxyRequestStrategy extends AbstractRequestStrategy {
+public class ProxyRequestStrategy implements RequestStrategy {
 
     @Setter(onMethod = @__(@Autowired))
     private ProxySource proxySource;
 
     @Override
-    protected Mono<RequestContext> handle(RequestContext context) {
-        int page = context.getPage().getNumber();
-        String task = context.getTask().getId();
-        SearchEngine engine = context.getProvider();
-
-        return proxySource.reserve(context.getProvider())
-                .doOnNext(p -> log.info("Received proxy: {}", p))
-                .doOnNext(p -> log.info("Schedule request via Proxy {} on {} for TaskDto {}, {} page and Engine {}",
-                        p.getId(), p.getSchedule(), task, page, engine))
-                .doOnNext(context::setProxy)
-                .flatMap(p -> Mono.delay(Duration.between(now(), p.getSchedule())).then(Mono.just(context)));
+    public Mono<RequestContext> configure(SearchEngine engine, RequestContext.RequestContextBuilder builder) {
+        return proxySource.reserve(engine)
+            .map(p -> builder.proxy(p).duration(Duration.between(now(), p.getSchedule())).build());
     }
 
     @Override
-    public void report(RequestContext context) {
-        int page = context.getPage().getNumber();
-        String task = context.getTask().getId();
-        String proxy = context.getProxy().getId();
-        SearchEngine engine = context.getProvider();
-
-        proxySource.report(context.getProxy().getId(), context.getProvider())
-                .doOnNext(v -> log.info("Proxy request error handled for Proxy {}, TaskDto {} and Engine {} on {} page",
-                        proxy, task, engine, page))
-                .subscribe();
+    public Mono<Void> report(RequestContext context) {
+        return proxySource.report(context.getProxy().getId(), context.getProvider())
+                .then();
     }
 }
