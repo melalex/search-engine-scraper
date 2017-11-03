@@ -40,6 +40,7 @@ dependencies {
     compile group: 'io.projectreactor.addons', name: 'reactor-extra'
     compile group: 'io.projectreactor.ipc', name: 'reactor-netty'
     compile group: 'org.apache.commons', name: 'commons-lang3'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations'
 
     compile group: 'com.google.guava', name: 'guava', version: guavaVersion
     compile group: 'org.jsoup', name: 'jsoup', version: jsoupVersion

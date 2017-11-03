@@ -3,7 +3,7 @@ package com.zephyr.scraper.crawler.manager.impl;
 import com.google.common.collect.ImmutableMap;
 import com.zephyr.scraper.crawler.manager.CrawlingManager;
 import com.zephyr.scraper.crawler.provider.CrawlingProvider;
-import com.zephyr.scraper.domain.SearchEngine;
+import com.zephyr.scraper.domain.external.SearchEngine;
 import com.zephyr.scraper.utils.MapUtils;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;

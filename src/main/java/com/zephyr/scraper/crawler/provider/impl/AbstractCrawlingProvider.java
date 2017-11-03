@@ -2,7 +2,7 @@ package com.zephyr.scraper.crawler.provider.impl;
 
 import com.zephyr.scraper.crawler.provider.CrawlingProvider;
 import com.zephyr.scraper.domain.Response;
-import com.zephyr.scraper.domain.SearchResult;
+import com.zephyr.scraper.domain.external.SearchResult;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 public abstract class AbstractCrawlingProvider implements CrawlingProvider {
 
     @Override
-    public SearchResult provide(Response response) {
+    public List<String> provide(Response response) {
         return SearchResult.builder()
                 .task(response.getTask())
                 .provider(response.getProvider())

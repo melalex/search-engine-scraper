@@ -1,7 +1,7 @@
 package com.zephyr.scraper.query.provider.impl;
 
 import com.zephyr.scraper.domain.ScraperTask;
-import com.zephyr.scraper.domain.SearchEngine;
+import com.zephyr.scraper.domain.external.SearchEngine;
 import com.zephyr.scraper.query.internal.Page;
 import com.zephyr.scraper.utils.MapUtils;
 import org.apache.commons.lang3.StringUtils;

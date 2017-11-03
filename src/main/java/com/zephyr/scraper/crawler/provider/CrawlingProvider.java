@@ -1,9 +1,10 @@
 package com.zephyr.scraper.crawler.provider;
 
 import com.zephyr.scraper.domain.Response;
-import com.zephyr.scraper.domain.SearchResult;
+
+import java.util.List;
 
 public interface CrawlingProvider {
 
-    SearchResult provide(Response response);
+    List<String> provide(Response response);
 }

@@ -1,10 +1,10 @@
 package com.zephyr.scraper.query.provider;
 
 import com.zephyr.scraper.domain.Request;
-import com.zephyr.scraper.domain.ScraperTask;
+import com.zephyr.scraper.domain.external.Keyword;
 
 @FunctionalInterface
 public interface QueryProvider {
 
-    Request provide(ScraperTask task);
+    Request provide(Keyword keyword);
 }

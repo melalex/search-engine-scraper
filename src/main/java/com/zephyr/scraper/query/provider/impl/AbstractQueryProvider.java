@@ -1,9 +1,10 @@
 package com.zephyr.scraper.query.provider.impl;
 
-import com.zephyr.scraper.domain.PageRequest;
+import com.zephyr.scraper.domain.RequestContext;
 import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.ScraperTask;
-import com.zephyr.scraper.domain.SearchEngine;
+import com.zephyr.scraper.domain.external.Keyword;
+import com.zephyr.scraper.domain.external.SearchEngine;
 import com.zephyr.scraper.properties.ScraperProperties;
 import com.zephyr.scraper.query.internal.Page;
 import com.zephyr.scraper.query.provider.QueryProvider;
@@ -28,17 +29,17 @@ public abstract class AbstractQueryProvider implements QueryProvider {
     private SearchEngine engine;
 
     @Override
-    public Request provide(ScraperTask task) {
+    public Request provide(Keyword keyword) {
         return Request.builder()
-                .task(task)
+                .task(keyword)
                 .provider(engine)
-                .baseUrl(provideBaseUrl(task))
+                .baseUrl(provideBaseUrl(keyword))
                 .uri(provideUri())
-                .pages(providePages(task))
+                .pages(providePages(keyword))
                 .build();
     }
 
-    private List<PageRequest> providePages(ScraperTask task) {
+    private List<RequestContext> providePages(ScraperTask task) {
         int first = first();
         int size = pageSize();
         int count = resultCount();
@@ -49,8 +50,8 @@ public abstract class AbstractQueryProvider implements QueryProvider {
                 .collect(Collectors.toList());
     }
 
-    private PageRequest getPage(ScraperTask task, Page page) {
-        return PageRequest.of(providePage(task, page), page.getPage());
+    private RequestContext getPage(ScraperTask task, Page page) {
+        return RequestContext.of(providePage(task, page), page.getPage());
     }
 
     private int first() {
