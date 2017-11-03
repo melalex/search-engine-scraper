@@ -1,18 +1,20 @@
 package com.zephyr.scraper.query.provider.impl;
 
-import com.zephyr.scraper.domain.ScraperTask;
+import com.zephyr.scraper.domain.Page;
+import com.zephyr.scraper.domain.QueryContext;
 import com.zephyr.scraper.domain.external.SearchEngine;
-import com.zephyr.scraper.query.internal.Page;
 import com.zephyr.scraper.utils.MapUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 @Component
 @ConditionalOnProperty(name = "scraper.google.enabled", havingValue = "true")
 public class GoogleQueryProvider extends AbstractQueryProvider {
+    private static final String URL = "google.com";
     private static final String URI = "/search";
     private static final String LANGUAGE = "lr";
     private static final String INTERFACE = "hl";
@@ -33,8 +35,8 @@ public class GoogleQueryProvider extends AbstractQueryProvider {
     }
 
     @Override
-    protected String provideBaseUrl(ScraperTask task) {
-        return "https://www." + task.getLocaleGoogle();
+    protected String provideBaseUrl(QueryContext context) {
+        return "https://www." + Optional.ofNullable(context.getCountry().getLocaleGoogle()).orElse(URI);
     }
 
     @Override
@@ -43,28 +45,28 @@ public class GoogleQueryProvider extends AbstractQueryProvider {
     }
 
     @Override
-    protected Map<String, ?> providePage(ScraperTask task, Page page) {
+    protected Map<String, ?> providePage(QueryContext context, Page page) {
         return MapUtils.<String, Object>builder()
                 .put(SAFE, IMAGE)
                 .put(AD_TEST, ON)
                 .put(GLP, ONE)
-                .put(QUERY, task.getWord())
+                .put(QUERY, context.getWord())
                 .put(NUMBER, page.getPageSize())
-                .put(PARENT, getParent(task))
-                .put(LOCATION, task.getLocation())
-                .put(INTERFACE, task.getLanguageIso())
+                .put(PARENT, getParent(context))
+                .put(LOCATION, context.getLocation())
+                .put(INTERFACE, context.getLanguageIso())
                 .putIfTrue(START, page.getStart(), page.isNotFirst())
-                .putIfNotNull(LANGUAGE, getLanguage(task))
+                .putIfNotNull(LANGUAGE, getLanguage(context))
                 .build();
     }
 
-    private String getParent(ScraperTask task) {
-        return "g:" + task.getParent();
+    private String getParent(QueryContext context) {
+        return "g:" + context.getParent();
     }
 
-    private String getLanguage(ScraperTask task) {
-        String iso = task.getLanguageIso();
+    private String getLanguage(QueryContext context) {
+        String iso = context.getLanguageIso();
 
-        return Objects.nonNull(iso) ? "lang_" + task.getLanguageIso() : null;
+        return Objects.nonNull(iso) ? "lang_" + context.getLanguageIso() : null;
     }
 }

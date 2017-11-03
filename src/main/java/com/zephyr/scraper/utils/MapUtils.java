@@ -10,8 +10,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-import static java.lang.Math.abs;
-
 @UtilityClass
 public class MapUtils {
 

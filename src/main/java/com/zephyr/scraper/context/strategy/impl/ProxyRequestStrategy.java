@@ -28,8 +28,8 @@ public class ProxyRequestStrategy implements RequestStrategy {
     }
 
     @Override
-    public Mono<Void> report(RequestContext context) {
-        return proxySource.report(context.getProxy().getId(), context.getProvider())
-                .then();
+    public void report(RequestContext context) {
+        proxySource.report(context.getProxy().getId(), context.getProvider())
+                .subscribe();
     }
 }

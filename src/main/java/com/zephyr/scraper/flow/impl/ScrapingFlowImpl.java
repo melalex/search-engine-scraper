@@ -1,15 +1,14 @@
 package com.zephyr.scraper.flow.impl;
 
+import com.zephyr.scraper.browser.Browser;
+import com.zephyr.scraper.context.ContextManager;
 import com.zephyr.scraper.crawler.Crawler;
 import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.RequestContext;
-import com.zephyr.scraper.domain.exceptions.RequestException;
+import com.zephyr.scraper.domain.exceptions.BrowserException;
 import com.zephyr.scraper.domain.external.Keyword;
 import com.zephyr.scraper.domain.external.SearchResult;
-import com.zephyr.scraper.domain.exceptions.BrowserException;
 import com.zephyr.scraper.flow.ScrapingFlow;
-import com.zephyr.scraper.browser.Browser;
-import com.zephyr.scraper.context.ContextManager;
 import com.zephyr.scraper.properties.ScraperProperties;
 import com.zephyr.scraper.query.QueryConstructor;
 import lombok.Setter;
@@ -55,14 +54,15 @@ public class ScrapingFlowImpl implements ScrapingFlow {
 
     private Mono<SearchResult> browse(Request request) {
         return Mono.defer(() -> contextManager.toContext(request))
-                .flatMap(this::makeRequest)
-                .retryWhen(requestException());
+                .flatMap(this::makeRequest);
     }
 
-    private Mono<SearchResult> makeRequest(RequestContext c) {
-        return Mono.delay(c.getDuration()).then(browser.get(c).retryWhen(browserException()))
-                .map(r -> crawler.crawl(c.getProvider(), r))
-                .map(l -> toSearchResult(c, l));
+    private Mono<SearchResult> makeRequest(RequestContext context) {
+        return Mono.delay(context.getDuration())
+                .then(browser.get(context).retryWhen(browserException(context)))
+                .map(r -> crawler.crawl(context.getProvider(), r))
+                .retryWhen(requestException(context))
+                .map(l -> toSearchResult(context, l));
     }
 
     private SearchResult toSearchResult(RequestContext request, List<String> links) {
@@ -75,25 +75,21 @@ public class ScrapingFlowImpl implements ScrapingFlow {
                 .build();
     }
 
-    private Function<Flux<Throwable>, ? extends Publisher<?>> browserException() {
-        return Retry.anyOf(BrowserException.class)
+    private Function<Flux<Throwable>, ? extends Publisher<?>> browserException(RequestContext context) {
+        return Retry.<RequestContext>anyOf(BrowserException.class)
+                .withApplicationContext(context)
                 .retryMax(scraperProperties.getBrowser().getRetryCount())
-                .doOnRetry(c -> log.error("Browser throw exception {} on {} try", c.exception(), c.iteration()))
+                .doOnRetry(c -> log.info("Browser throw exception {} on {} try", c.exception(), c.iteration()))
                 .exponentialBackoff(
                         Duration.ofMillis(scraperProperties.getBrowser().getFirstBackoff()),
                         Duration.ofMillis(scraperProperties.getBrowser().getMaxBackoff())
                 );
     }
 
-    private Function<Flux<Throwable>, ? extends Publisher<?>> requestException() {
-        return Retry.anyOf(RequestException.class)
-                .doOnRetry(c -> report(c.exception()))
-                .doOnRetry(c -> log.error("Request failed with exception {} on {} try", c.exception(), c.iteration()));
-    }
-
-    private void report(Throwable throwable) {
-        if (throwable instanceof RequestException) {
-            contextManager.report(((RequestException) throwable).getFailedRequest());
-        }
+    private Function<Flux<Throwable>, ? extends Publisher<?>> requestException(RequestContext context) {
+        return Retry.<RequestContext>any()
+                .withApplicationContext(context)
+                .doOnRetry(c -> contextManager.report(c.applicationContext()))
+                .doOnRetry(c -> log.info("Request failed with exception {} on {} try", c.exception(), c.iteration()));
     }
 }

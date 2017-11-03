@@ -1,8 +1,8 @@
 package com.zephyr.scraper.query.provider.impl;
 
-import com.zephyr.scraper.domain.ScraperTask;
 import com.zephyr.scraper.domain.external.SearchEngine;
-import com.zephyr.scraper.query.internal.Page;
+import com.zephyr.scraper.domain.Page;
+import com.zephyr.scraper.domain.QueryContext;
 import com.zephyr.scraper.utils.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -27,7 +27,7 @@ public class BingQueryProvider extends AbstractQueryProvider {
     }
 
     @Override
-    protected String provideBaseUrl(ScraperTask task) {
+    protected String provideBaseUrl(QueryContext context) {
         return URL;
     }
 
@@ -37,21 +37,21 @@ public class BingQueryProvider extends AbstractQueryProvider {
     }
 
     @Override
-    protected Map<String, ?> providePage(ScraperTask task, Page page) {
+    protected Map<String, ?> providePage(QueryContext context, Page page) {
         return MapUtils.<String, Object>builder()
-                .put(QUERY, getQuery(task))
+                .put(QUERY, getQuery(context))
                 .put(COUNT, page.getPageSize())
                 .putIfTrue(FIRST, page.getStart(), page.isNotFirst())
                 .build();
     }
 
-    private String getQuery(ScraperTask task) {
-        return task.getWord() + getLanguage(task);
+    private String getQuery(QueryContext context) {
+        return context.getWord() + getLanguage(context);
     }
 
-    private String getLanguage(ScraperTask task) {
-        return isNotBlank(task.getLanguageIso())
-                ? LANGUAGE + task.getLanguageIso()
+    private String getLanguage(QueryContext context) {
+        return isNotBlank(context.getLanguageIso())
+                ? LANGUAGE + context.getLanguageIso()
                 : StringUtils.EMPTY;
     }
 }

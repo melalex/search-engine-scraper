@@ -34,13 +34,11 @@ public class DirectRequestStrategy implements RequestStrategy {
     }
 
     @Override
-    public Mono<Void> report(RequestContext context) {
+    public void report(RequestContext context) {
         SearchEngine engine = context.getProvider();
         Duration timeout = Duration.ofMillis(properties.getScraper(engine).getErrorDelay());
 
         direct.compute(engine, (k, v) -> relax(v, timeout));
-
-        return Mono.empty();
     }
 
     private LocalDateTime reserve(LocalDateTime now, LocalDateTime previous, Duration duration) {

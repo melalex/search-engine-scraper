@@ -1,8 +1,9 @@
 package com.zephyr.scraper.fraud.provider;
 
-import com.zephyr.scraper.domain.PageResponse;
+import org.jsoup.nodes.Document;
 
+@FunctionalInterface
 public interface FraudProvider {
 
-    boolean provide(PageResponse pageResponse);
+    boolean provide(Document document);
 }

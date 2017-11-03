@@ -1,9 +1,10 @@
 package com.zephyr.scraper.fraud;
 
-import com.zephyr.scraper.domain.PageResponse;
-import com.zephyr.scraper.domain.RequestContext;
+import com.zephyr.scraper.domain.external.SearchEngine;
+import org.jsoup.nodes.Document;
 
+@FunctionalInterface
 public interface FraudAnalyzer {
 
-    void analyze(RequestContext context, PageResponse response);
+    void analyze(SearchEngine engine, Document document);
 }

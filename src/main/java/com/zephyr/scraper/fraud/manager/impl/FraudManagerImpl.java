@@ -21,8 +21,6 @@ public class FraudManagerImpl implements FraudManager {
                 .put(SearchEngine.GOOGLE, new GoogleFraudProvider())
                 .put(SearchEngine.BING, new DefaultFraudProvider())
                 .put(SearchEngine.YAHOO, new DefaultFraudProvider())
-                .put(SearchEngine.YANDEX, new DefaultFraudProvider())
-                .put(SearchEngine.DUCKDUCKGO, new DefaultFraudProvider())
                 .build();
     }
 

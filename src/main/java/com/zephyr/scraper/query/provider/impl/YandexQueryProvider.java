@@ -1,13 +1,14 @@
 package com.zephyr.scraper.query.provider.impl;
 
-import com.zephyr.scraper.domain.ScraperTask;
+import com.zephyr.scraper.domain.Page;
+import com.zephyr.scraper.domain.QueryContext;
 import com.zephyr.scraper.domain.external.SearchEngine;
-import com.zephyr.scraper.query.internal.Page;
 import com.zephyr.scraper.utils.MapUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 @ConditionalOnProperty(name = "scraper.yandex.enabled", havingValue = "true")
@@ -22,14 +23,14 @@ public class YandexQueryProvider extends AbstractQueryProvider {
     }
 
     @Override
-    protected String provideBaseUrl(ScraperTask task) {
-        return URL;
+    protected String provideBaseUrl(QueryContext context) {
+        return "https://" + Optional.ofNullable(context.getCountry().getLocaleYandex()).orElse(URL);
     }
 
     @Override
-    protected Map<String, ?> providePage(ScraperTask task, Page page) {
+    protected Map<String, ?> providePage(QueryContext context, Page page) {
         return MapUtils.<String, Object>builder()
-                .put(QUERY, task.getWord())
+                .put(QUERY, context.getWord())
                 .put(COUNT, page.getPageSize())
                 .putIfTrue(START, page.getStart(), page.isNotFirst())
                 .build();

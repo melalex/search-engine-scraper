@@ -29,8 +29,8 @@ public class WebClientBrowser implements Browser {
 
     @Override
     public Mono<Response> get(RequestContext context) {
-        log.info("Creating Browser for Keyword {} and Engine {} on {} page",
-                context.getKeyword(), context.getProvider(), context.getPage());
+        log.info("Creating Browser for Keyword {} and Engine {} on {} offset",
+                context.getKeyword(), context.getProvider(), context.getOffset());
 
         // @formatter:off
         return WebClient.builder()
@@ -51,7 +51,7 @@ public class WebClientBrowser implements Browser {
                     .uri(context.getUri())
                     .exchange()
                     .flatMap(c -> Mono.zip(Mono.just(c.headers().asHttpHeaders()), c.bodyToMono(String.class)))
-                    .map(r -> Response.of(r.getT1(), r.getT2(), context.getPage()))
+                    .map(r -> Response.of(r.getT1(), r.getT2(), context.getProvider()))
                     .onErrorMap(t -> new BrowserException("Exception during request", t));
         // @formatter:on
     }

@@ -1,5 +1,6 @@
 package com.zephyr.scraper.domain;
 
+import com.zephyr.scraper.domain.external.SearchEngine;
 import lombok.Value;
 
 import java.util.List;
@@ -9,5 +10,5 @@ import java.util.Map;
 public class Response {
     private Map<String, List<String>> headers;
     private String body;
-    private int page;
+    private SearchEngine provider;
 }

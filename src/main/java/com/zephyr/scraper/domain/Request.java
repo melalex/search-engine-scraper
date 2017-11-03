@@ -2,12 +2,11 @@ package com.zephyr.scraper.domain;
 
 import com.zephyr.scraper.domain.external.Keyword;
 import com.zephyr.scraper.domain.external.SearchEngine;
+import com.zephyr.scraper.domain.immutable.ImmutableKeyword;
 import lombok.Builder;
 import lombok.Value;
 import lombok.experimental.Delegate;
-import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.List;
 import java.util.Map;
 
 @Value
@@ -23,17 +22,4 @@ public class Request {
 
     private int offset;
     private Map<String, ?> params;
-
-    public interface ImmutableKeyword {
-
-        String getUserAgent();
-
-        String getLanguageIso();
-
-        String getCountryIso();
-
-        String getPlace();
-
-        String getWord();
-    }
 }

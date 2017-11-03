@@ -1,12 +1,10 @@
 package com.zephyr.scraper.query.provider.impl;
 
-import com.zephyr.scraper.domain.RequestContext;
 import com.zephyr.scraper.domain.Request;
-import com.zephyr.scraper.domain.ScraperTask;
-import com.zephyr.scraper.domain.external.Keyword;
 import com.zephyr.scraper.domain.external.SearchEngine;
 import com.zephyr.scraper.properties.ScraperProperties;
-import com.zephyr.scraper.query.internal.Page;
+import com.zephyr.scraper.domain.Page;
+import com.zephyr.scraper.domain.QueryContext;
 import com.zephyr.scraper.query.provider.QueryProvider;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -29,29 +27,26 @@ public abstract class AbstractQueryProvider implements QueryProvider {
     private SearchEngine engine;
 
     @Override
-    public Request provide(Keyword keyword) {
-        return Request.builder()
-                .task(keyword)
-                .provider(engine)
-                .baseUrl(provideBaseUrl(keyword))
-                .uri(provideUri())
-                .pages(providePages(keyword))
-                .build();
-    }
-
-    private List<RequestContext> providePages(ScraperTask task) {
+    public List<Request> provide(QueryContext context) {
         int first = first();
         int size = pageSize();
         int count = resultCount();
 
         return IntStream.range(0, (int) Math.ceil(count / size))
                 .mapToObj(i -> Page.of(first, i, size, count))
-                .map(p -> getPage(task, p))
+                .map(p -> getPage(context, p))
                 .collect(Collectors.toList());
+
     }
 
-    private RequestContext getPage(ScraperTask task, Page page) {
-        return RequestContext.of(providePage(task, page), page.getPage());
+    private Request getPage(QueryContext context, Page page) {
+        return Request.builder()
+                .keyword(context.getKeyword())
+                .provider(engine)
+                .baseUrl(provideBaseUrl(context))
+                .uri(provideUri())
+                .params(providePage(context, page))
+                .build();
     }
 
     private int first() {
@@ -70,7 +65,7 @@ public abstract class AbstractQueryProvider implements QueryProvider {
         return ROOT;
     }
 
-    protected abstract String provideBaseUrl(ScraperTask task);
+    protected abstract String provideBaseUrl(QueryContext context);
 
-    protected abstract Map<String, ?> providePage(ScraperTask task, Page page);
+    protected abstract Map<String, ?> providePage(QueryContext context, Page page);
 }

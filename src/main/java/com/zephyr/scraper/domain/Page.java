@@ -1,4 +1,4 @@
-package com.zephyr.scraper.query.internal;
+package com.zephyr.scraper.domain;
 
 import lombok.Value;
 

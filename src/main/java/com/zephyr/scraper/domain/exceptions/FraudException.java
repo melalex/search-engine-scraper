@@ -3,6 +3,9 @@ package com.zephyr.scraper.domain.exceptions;
 public class FraudException extends RuntimeException {
     private static final long serialVersionUID = -7579427673806004192L;
 
+    public FraudException() {
+    }
+
     public FraudException(String message) {
         super(message);
     }

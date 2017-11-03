@@ -8,5 +8,5 @@ public interface RequestStrategy {
 
     Mono<RequestContext> configure(SearchEngine engine, RequestContext.RequestContextBuilder builder);
 
-    Mono<Void> report(RequestContext context);
+    void report(RequestContext context);
 }

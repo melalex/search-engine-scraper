@@ -1,12 +1,12 @@
 package com.zephyr.scraper.fraud.provider.impl;
 
-import com.zephyr.scraper.domain.PageResponse;
 import com.zephyr.scraper.fraud.provider.FraudProvider;
+import org.jsoup.nodes.Document;
 
 public class DefaultFraudProvider implements FraudProvider {
 
     @Override
-    public boolean provide(PageResponse pageResponse) {
+    public boolean provide(Document document) {
         return false;
     }
 }

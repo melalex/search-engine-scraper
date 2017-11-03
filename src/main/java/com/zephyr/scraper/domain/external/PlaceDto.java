@@ -8,7 +8,7 @@ public class PlaceDto {
     private String name;
     private String canonicalName;
     private long parent;
-    private String countryIso;
+    private CountryDto country;
     private PlaceType type;
     private String location;
 }

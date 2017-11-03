@@ -1,15 +1,17 @@
 package com.zephyr.scraper.crawler.provider.impl;
 
+import com.zephyr.scraper.crawler.provider.CrawlingProvider;
 import com.zephyr.scraper.domain.Response;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 
 @Component
-public class YandexCrawlingProvider extends AbstractCrawlingProvider {
+public class YandexCrawlingProvider implements CrawlingProvider {
 
     @Override
-    protected List<String> parse(Response response) {
-        return null;
+    public List<String> provide(Response response) {
+        return Collections.emptyList();
     }
 }
