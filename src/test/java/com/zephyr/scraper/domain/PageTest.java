@@ -2,32 +2,10 @@ package com.zephyr.scraper.domain;
 
 import org.junit.Test;
 
+import static com.zephyr.scraper.internal.PaginationConstants.*;
 import static org.junit.Assert.*;
 
 public class PageTest {
-    private static final int FIRST = 1;
-    private static final int ZERO_BASED_FIRST = 0;
-    private static final int START_OF_FINAL = 81;
-    private static final int START_OF_ZERO_BASED_FINAL = 80;
-    private static final int FIRST_PAGE_NUMBER = 0;
-    private static final int SECOND_PAGE_NUMBER = FIRST_PAGE_NUMBER + 1;
-    private static final int LAST_PAGE_NUMBER = 4;
-    private static final int OUT_BOUND_PAGE_NUMBER = LAST_PAGE_NUMBER + 1;
-    private static final int PAGE_SIZE = 20;
-    private static final int LAST_PAGE_SIZE = 10;
-    private static final int COUNT = 90;
-
-    private static final Page FIRST_PAGE = Page.of(FIRST, FIRST_PAGE_NUMBER, PAGE_SIZE, COUNT);
-    private static final Page FIRST_ZERO_BASED_PAGE = Page.of(ZERO_BASED_FIRST, FIRST_PAGE_NUMBER, PAGE_SIZE, COUNT);
-
-    private static final Page SECOND_PAGE = Page.of(FIRST, SECOND_PAGE_NUMBER, PAGE_SIZE, COUNT);
-    private static final Page SECOND_ZERO_BASED_PAGE = Page.of(ZERO_BASED_FIRST, SECOND_PAGE_NUMBER, PAGE_SIZE, COUNT);
-
-    private static final Page LAST_PAGE = Page.of(FIRST, LAST_PAGE_NUMBER, LAST_PAGE_SIZE, COUNT);
-    private static final Page LAST_ZERO_BASED_PAGE = Page.of(ZERO_BASED_FIRST, LAST_PAGE_NUMBER, LAST_PAGE_SIZE, COUNT);
-
-    private static final Page OUT_BOUND_PAGE = Page.of(FIRST, OUT_BOUND_PAGE_NUMBER, LAST_PAGE_SIZE, COUNT);
-    private static final Page OUT_BOUND_ZERO_BASED_PAGE = Page.of(ZERO_BASED_FIRST, OUT_BOUND_PAGE_NUMBER, LAST_PAGE_SIZE, COUNT);
 
     @Test
     public void shouldGetPageSizeForFirstPage() {
@@ -43,14 +21,14 @@ public class PageTest {
 
     @Test
     public void shouldGetStartForFirstPage() {
-        assertEquals(FIRST, FIRST_PAGE.getStart());
-        assertEquals(ZERO_BASED_FIRST, FIRST_ZERO_BASED_PAGE.getStart());
+        assertEquals(FIRST_ROW, FIRST_PAGE.getStart());
+        assertEquals(ZERO_BASED_FIRST_ROW, FIRST_ZERO_BASED_PAGE.getStart());
     }
 
     @Test
     public void shouldGetStartForLastPage() {
-        assertEquals(START_OF_FINAL, LAST_PAGE.getStart());
-        assertEquals(START_OF_ZERO_BASED_FINAL, LAST_ZERO_BASED_PAGE.getStart());
+        assertEquals(START_OF_LAST, LAST_PAGE.getStart());
+        assertEquals(START_OF_ZERO_BASED_LAST, LAST_ZERO_BASED_PAGE.getStart());
     }
 
     @Test

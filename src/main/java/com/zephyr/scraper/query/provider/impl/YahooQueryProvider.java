@@ -12,7 +12,7 @@ import java.util.Map;
 @Component
 @ConditionalOnProperty(name = "scraper.yahoo.enabled", havingValue = "true")
 public class YahooQueryProvider extends AbstractQueryProvider {
-    private static final String URL = "https://search.yahoo.com";
+    private static final String URL = "search.yahoo.com";
     private static final String URI = "/search";
     private static final String QUERY = "p";
     private static final String ENCODING = "ei";

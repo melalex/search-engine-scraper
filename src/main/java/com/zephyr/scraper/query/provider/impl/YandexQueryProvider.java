@@ -13,7 +13,7 @@ import java.util.Optional;
 @Component
 @ConditionalOnProperty(name = "scraper.yandex.enabled", havingValue = "true")
 public class YandexQueryProvider extends AbstractQueryProvider {
-    private static final String URL = "https://yandex.ru";
+    private static final String URL = "yandex.ru";
     private static final String QUERY = "text";
     private static final String START = "b";
     private static final String COUNT = "n";
@@ -24,7 +24,7 @@ public class YandexQueryProvider extends AbstractQueryProvider {
 
     @Override
     protected String provideBaseUrl(QueryContext context) {
-        return "https://" + Optional.ofNullable(context.getCountry().getLocaleYandex()).orElse(URL);
+        return Optional.ofNullable(context.getCountry().getLocaleYandex()).orElse(URL);
     }
 
     @Override

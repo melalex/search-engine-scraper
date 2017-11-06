@@ -15,7 +15,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 @Component
 @ConditionalOnProperty(name = "scraper.bing.enabled", havingValue = "true")
 public class BingQueryProvider extends AbstractQueryProvider {
-    private static final String URL = "https://www.bing.com";
+    private static final String URL = "www.bing.com";
     private static final String URI = "/search";
     private static final String QUERY = "q";
     private static final String LANGUAGE = " language:";

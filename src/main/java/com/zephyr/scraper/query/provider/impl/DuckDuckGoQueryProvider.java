@@ -12,7 +12,7 @@ import java.util.Map;
 @Component
 @ConditionalOnProperty(name = "scraper.duckduckgo.enabled", havingValue = "true")
 public class DuckDuckGoQueryProvider extends AbstractQueryProvider {
-    private static final String URL = "https://duckduckgo.com";
+    private static final String URL = "duckduckgo.com";
     private static final String QUERY = "q";
     private static final String SAFE = "kp";
     private static final String NOT_SAFE = "-2";

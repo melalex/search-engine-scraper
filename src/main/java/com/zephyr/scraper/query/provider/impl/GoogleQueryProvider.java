@@ -14,7 +14,7 @@ import java.util.Optional;
 @Component
 @ConditionalOnProperty(name = "scraper.google.enabled", havingValue = "true")
 public class GoogleQueryProvider extends AbstractQueryProvider {
-    private static final String URL = "google.com";
+    private static final String URL = "www.google.com";
     private static final String URI = "/search";
     private static final String LANGUAGE = "lr";
     private static final String INTERFACE = "hl";
@@ -36,7 +36,7 @@ public class GoogleQueryProvider extends AbstractQueryProvider {
 
     @Override
     protected String provideBaseUrl(QueryContext context) {
-        return "https://www." + Optional.ofNullable(context.getCountry().getLocaleGoogle()).orElse(URI);
+        return Optional.ofNullable(context.getCountry().getLocaleGoogle()).orElse(URL);
     }
 
     @Override
@@ -54,8 +54,8 @@ public class GoogleQueryProvider extends AbstractQueryProvider {
                 .put(NUMBER, page.getPageSize())
                 .put(PARENT, getParent(context))
                 .put(LOCATION, context.getLocation())
-                .put(INTERFACE, context.getLanguageIso())
                 .putIfTrue(START, page.getStart(), page.isNotFirst())
+                .putIfNotNull(INTERFACE, context.getLanguageIso())
                 .putIfNotNull(LANGUAGE, getLanguage(context))
                 .build();
     }
