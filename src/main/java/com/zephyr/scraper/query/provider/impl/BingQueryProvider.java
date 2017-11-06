@@ -37,7 +37,7 @@ public class BingQueryProvider extends AbstractQueryProvider {
     }
 
     @Override
-    protected Map<String, ?> providePage(QueryContext context, Page page) {
+    protected Map<String, ?> provideParams(QueryContext context, Page page) {
         return MapUtils.<String, Object>builder()
                 .put(QUERY, getQuery(context))
                 .put(COUNT, page.getPageSize())

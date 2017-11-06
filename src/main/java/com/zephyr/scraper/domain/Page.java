@@ -17,8 +17,12 @@ public class Page {
         return first + page * pageSize;
     }
 
+    public int getLastPage() {
+        return (int) Math.ceil(count / pageSize) - 1;
+    }
+
     public boolean isFirst() {
-        return getStart() == first;
+        return page == 0;
     }
 
     public boolean isNotFirst() {
@@ -26,10 +30,18 @@ public class Page {
     }
 
     public boolean isLast() {
-        return getStart() + pageSize >= count;
+        return getLastPage() == page;
     }
 
     public boolean isNotLast() {
         return !isLast();
+    }
+
+    public Page getNextPage() {
+        return Page.of(first, page + 1, pageSize, count);
+    }
+
+    public boolean hasNextPage() {
+        return page > getLastPage();
     }
 }

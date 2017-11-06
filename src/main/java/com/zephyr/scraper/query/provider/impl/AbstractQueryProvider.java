@@ -14,11 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 public abstract class AbstractQueryProvider implements QueryProvider {
     private static final String ROOT = "/";
+    private static final int FIRST = 0;
 
     @Setter(onMethod = @__(@Autowired))
     private ScraperProperties properties;
@@ -28,15 +29,9 @@ public abstract class AbstractQueryProvider implements QueryProvider {
 
     @Override
     public List<Request> provide(QueryContext context) {
-        int first = first();
-        int size = pageSize();
-        int count = resultCount();
-
-        return IntStream.range(0, (int) Math.ceil(count / size))
-                .mapToObj(i -> Page.of(first, i, size, count))
+        return Stream.iterate(Page.of(first(), FIRST, pageSize(), resultCount()), Page::hasNextPage, Page::getNextPage)
                 .map(p -> getPage(context, p))
                 .collect(Collectors.toList());
-
     }
 
     private Request getPage(QueryContext context, Page page) {
@@ -45,7 +40,7 @@ public abstract class AbstractQueryProvider implements QueryProvider {
                 .provider(engine)
                 .baseUrl(provideBaseUrl(context))
                 .uri(provideUri())
-                .params(providePage(context, page))
+                .params(provideParams(context, page))
                 .build();
     }
 
@@ -67,5 +62,5 @@ public abstract class AbstractQueryProvider implements QueryProvider {
 
     protected abstract String provideBaseUrl(QueryContext context);
 
-    protected abstract Map<String, ?> providePage(QueryContext context, Page page);
+    protected abstract Map<String, ?> provideParams(QueryContext context, Page page);
 }

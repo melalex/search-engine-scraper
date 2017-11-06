@@ -29,7 +29,7 @@ public class DuckDuckGoQueryProvider extends AbstractQueryProvider {
     }
 
     @Override
-    protected Map<String, ?> providePage(QueryContext context, Page page) {
+    protected Map<String, ?> provideParams(QueryContext context, Page page) {
         return MapUtils.<String, Object>builder()
                 .put(QUERY, context.getWord())
                 .put(SAFE, NOT_SAFE)

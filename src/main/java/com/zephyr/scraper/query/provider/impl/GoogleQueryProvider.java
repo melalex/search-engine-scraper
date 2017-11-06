@@ -45,7 +45,7 @@ public class GoogleQueryProvider extends AbstractQueryProvider {
     }
 
     @Override
-    protected Map<String, ?> providePage(QueryContext context, Page page) {
+    protected Map<String, ?> provideParams(QueryContext context, Page page) {
         return MapUtils.<String, Object>builder()
                 .put(SAFE, IMAGE)
                 .put(AD_TEST, ON)
