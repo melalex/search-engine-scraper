@@ -43,7 +43,7 @@ public class QueryConstructorImplTest {
     private LocationSource locationSource;
 
     @InjectMocks
-    private QueryConstructorImpl queryConstructor;
+    private QueryConstructorImpl testInstance;
 
     private Request firstRequest = Request.builder()
             .keyword(keyword)
@@ -57,7 +57,7 @@ public class QueryConstructorImplTest {
 
     @Before
     public void setUp() {
-        queryConstructor.setProviders(List.of(firstProvider, secondProvider));
+        testInstance.setProviders(List.of(firstProvider, secondProvider));
 
         when(locationSource.findPlace(COUNTRY_ISO, PLACE_NAME)).thenReturn(Mono.just(place));
         when(firstProvider.provide(QueryContext.of(keyword, place))).thenReturn(List.of(firstRequest));
@@ -66,7 +66,7 @@ public class QueryConstructorImplTest {
 
     @Test
     public void shouldConstruct() {
-        StepVerifier.create(queryConstructor.construct(keyword))
+        StepVerifier.create(testInstance.construct(keyword))
                 .expectNext(firstRequest, secondRequest);
     }
 }

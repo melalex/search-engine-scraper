@@ -6,6 +6,7 @@ import com.zephyr.scraper.crawler.Crawler;
 import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.RequestContext;
 import com.zephyr.scraper.domain.exceptions.BrowserException;
+import com.zephyr.scraper.domain.exceptions.RequestException;
 import com.zephyr.scraper.domain.external.Keyword;
 import com.zephyr.scraper.domain.external.SearchResult;
 import com.zephyr.scraper.flow.ScrapingFlow;
@@ -54,15 +55,16 @@ public class ScrapingFlowImpl implements ScrapingFlow {
 
     private Mono<SearchResult> browse(Request request) {
         return Mono.defer(() -> contextManager.toContext(request))
-                .flatMap(this::makeRequest);
+                .flatMap(this::makeRequest)
+                .retryWhen(requestException());
     }
 
     private Mono<SearchResult> makeRequest(RequestContext context) {
         return Mono.delay(context.getDuration())
                 .then(browser.get(context).retryWhen(browserException(context)))
                 .map(r -> crawler.crawl(context.getProvider(), r))
-                .retryWhen(requestException(context))
-                .map(l -> toSearchResult(context, l));
+                .map(l -> toSearchResult(context, l))
+                .onErrorMap(t -> new RequestException(t, context));
     }
 
     private SearchResult toSearchResult(RequestContext request, List<String> links) {
@@ -86,10 +88,15 @@ public class ScrapingFlowImpl implements ScrapingFlow {
                 );
     }
 
-    private Function<Flux<Throwable>, ? extends Publisher<?>> requestException(RequestContext context) {
-        return Retry.<RequestContext>any()
-                .withApplicationContext(context)
-                .doOnRetry(c -> contextManager.report(c.applicationContext()))
+    private Function<Flux<Throwable>, ? extends Publisher<?>> requestException() {
+        return Retry.any()
+                .doOnRetry(c -> report(c.exception()))
                 .doOnRetry(c -> log.info("Request failed with exception {} on {} try", c.exception(), c.iteration()));
+    }
+
+    private void report(Throwable exception) {
+        if (exception instanceof RequestException) {
+            contextManager.report(((RequestException) exception).getFailedContext());
+        }
     }
 }
