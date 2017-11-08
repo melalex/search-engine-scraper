@@ -1,0 +1,33 @@
+package com.zephyr.scraper.browser.composer.enricher.impl;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.common.net.HttpHeaders;
+import com.zephyr.scraper.domain.RequestContext;
+import org.junit.Test;
+
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+
+public class HtmlHeadersProviderTest {
+    private static final String UPGRADE_INSECURE_REQUESTS = "Upgrade-Insecure-Requests";
+    private static final String ACCEPT = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
+    private static final String TRUE = "1";
+
+    private static final RequestContext DOES_NOT_MATTER = null;
+
+    private final HtmlHeadersProvider testInstance = new HtmlHeadersProvider();
+
+    @Test
+    public void shouldProvide() {
+        assertEquals(expected(), testInstance.provide(DOES_NOT_MATTER));
+    }
+
+    private Map<String, List<String>> expected() {
+        return ImmutableMap.<String, List<String>>builder()
+                .put(HttpHeaders.ACCEPT, List.of(ACCEPT))
+                .put(UPGRADE_INSECURE_REQUESTS, List.of(TRUE))
+                .build();
+    }
+}
