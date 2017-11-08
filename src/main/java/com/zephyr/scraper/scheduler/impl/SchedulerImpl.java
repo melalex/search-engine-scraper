@@ -1,7 +1,7 @@
-package com.zephyr.scraper.context.impl;
+package com.zephyr.scraper.scheduler.impl;
 
-import com.zephyr.scraper.context.ContextManager;
-import com.zephyr.scraper.context.strategy.RequestStrategy;
+import com.zephyr.scraper.scheduler.Scheduler;
+import com.zephyr.scraper.scheduler.strategy.RequestStrategy;
 import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.RequestContext;
 import com.zephyr.scraper.domain.external.SearchEngine;
@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Component
-public class ContextManagerImpl implements ContextManager {
+public class SchedulerImpl implements Scheduler {
 
     @Setter(onMethod = @__(@Autowired))
     private ScraperProperties scraperProperties;
@@ -26,9 +26,9 @@ public class ContextManagerImpl implements ContextManager {
     private RequestStrategy proxyRequestStrategy;
 
     @Override
-    public Mono<RequestContext> toContext(Request request) {
+    public Mono<RequestContext> createContext(Request request) {
         return getRequestStrategy(request.getProvider())
-                .configure(request.getProvider(), RequestContext.builder().request(request))
+                .configureAndBuild(request.getProvider(), RequestContext.builder().request(request))
                 .doOnNext(c -> log.info("New RequestContext: {}", c));
     }
 

@@ -1,7 +1,7 @@
 package com.zephyr.scraper.flow.impl;
 
 import com.zephyr.scraper.browser.Browser;
-import com.zephyr.scraper.context.ContextManager;
+import com.zephyr.scraper.scheduler.Scheduler;
 import com.zephyr.scraper.crawler.Crawler;
 import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.RequestContext;
@@ -21,6 +21,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.retry.Retry;
 
+import java.time.Clock;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,7 +35,7 @@ public class ScrapingFlowImpl implements ScrapingFlow {
     private ScraperProperties scraperProperties;
 
     @Setter(onMethod = @__(@Autowired))
-    private ContextManager contextManager;
+    private Scheduler scheduler;
 
     @Setter(onMethod = @__(@Autowired))
     private QueryConstructor queryConstructor;
@@ -45,6 +46,9 @@ public class ScrapingFlowImpl implements ScrapingFlow {
     @Setter(onMethod = @__(@Autowired))
     private Crawler crawler;
 
+    @Setter(onMethod = @__(@Autowired))
+    private Clock clock;
+
     @Override
     public Flux<SearchResult> handle(Flux<Keyword> input) {
         return input.flatMap(queryConstructor::construct)
@@ -54,7 +58,7 @@ public class ScrapingFlowImpl implements ScrapingFlow {
     }
 
     private Mono<SearchResult> browse(Request request) {
-        return Mono.defer(() -> contextManager.toContext(request))
+        return Mono.defer(() -> scheduler.createContext(request))
                 .flatMap(this::makeRequest)
                 .retryWhen(requestException());
     }
@@ -72,7 +76,7 @@ public class ScrapingFlowImpl implements ScrapingFlow {
                 .offset(request.getOffset())
                 .keyword(request.getKeyword())
                 .provider(request.getProvider())
-                .timestamp(LocalDateTime.now())
+                .timestamp(LocalDateTime.now(clock))
                 .links(links)
                 .build();
     }
@@ -82,10 +86,7 @@ public class ScrapingFlowImpl implements ScrapingFlow {
                 .withApplicationContext(context)
                 .retryMax(scraperProperties.getBrowser().getRetryCount())
                 .doOnRetry(c -> log.info("Browser throw exception {} on {} try", c.exception(), c.iteration()))
-                .exponentialBackoff(
-                        Duration.ofMillis(scraperProperties.getBrowser().getFirstBackoff()),
-                        Duration.ofMillis(scraperProperties.getBrowser().getMaxBackoff())
-                );
+                .fixedBackoff(Duration.ofMillis(scraperProperties.getBrowser().getBackoff()));
     }
 
     private Function<Flux<Throwable>, ? extends Publisher<?>> requestException() {
@@ -96,7 +97,7 @@ public class ScrapingFlowImpl implements ScrapingFlow {
 
     private void report(Throwable exception) {
         if (exception instanceof RequestException) {
-            contextManager.report(((RequestException) exception).getFailedContext());
+            scheduler.report(((RequestException) exception).getFailedContext());
         }
     }
 }

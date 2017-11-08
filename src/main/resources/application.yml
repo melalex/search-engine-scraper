@@ -7,8 +7,7 @@ logging:
     org.springframework.security: INFO
 
 browser:
-  firstBackoff: 5000
-  maxBackoff: 300000
+  backoff: 5000
   retryCount: 3
 
 scraper:
