@@ -29,7 +29,7 @@ public class DefaultCrawlingProvider implements CrawlingProvider {
         SearchEngine engine = response.getProvider();
         Document document = Jsoup.parse(response.getBody());
         String linkSelector = scraperProperties
-                .getScraper(response.getProvider())
+                .getScraper(engine)
                 .getLinkSelector();
 
         fraudAnalyzer.analyze(engine, document);

@@ -6,6 +6,7 @@ import com.zephyr.scraper.fraud.manager.FraudManager;
 import com.zephyr.scraper.fraud.provider.FraudProvider;
 import com.zephyr.scraper.fraud.provider.impl.DefaultFraudProvider;
 import com.zephyr.scraper.fraud.provider.impl.GoogleFraudProvider;
+import com.zephyr.scraper.utils.MapUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -26,6 +27,6 @@ public class FraudManagerImpl implements FraudManager {
 
     @Override
     public FraudProvider manage(SearchEngine searchEngine) {
-        return providers.get(searchEngine);
+        return MapUtils.getOrThrow(providers, searchEngine);
     }
 }

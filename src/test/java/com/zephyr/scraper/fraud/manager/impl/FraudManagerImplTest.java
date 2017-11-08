@@ -9,7 +9,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 public class FraudManagerImplTest {
-
     private FraudManagerImpl testInstance = new FraudManagerImpl();
 
     @Before
@@ -30,5 +29,15 @@ public class FraudManagerImplTest {
     @Test
     public void shouldManageYahoo() {
         assertTrue(testInstance.manage(SearchEngine.YAHOO) instanceof DefaultFraudProvider);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotManageYandex() {
+        testInstance.manage(SearchEngine.YANDEX);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotManageDuckDuckGo() {
+        testInstance.manage(SearchEngine.DUCKDUCKGO);
     }
 }

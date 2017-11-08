@@ -38,6 +38,6 @@ public class CrawlingManagerImpl implements CrawlingManager {
 
     @Override
     public CrawlingProvider manage(SearchEngine engine) {
-        return MapUtils.getOrThrow(providers, engine);
+        return providers.get(engine);
     }
 }
