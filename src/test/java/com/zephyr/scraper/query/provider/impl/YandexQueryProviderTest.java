@@ -32,7 +32,7 @@ public class YandexQueryProviderTest {
     @Mock
     private QueryContext context;
 
-    private YandexQueryProvider testInstance = new YandexQueryProvider();
+    private final YandexQueryProvider testInstance = new YandexQueryProvider();
 
     @Before
     public void setUp() {

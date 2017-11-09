@@ -1,5 +1,6 @@
 package com.zephyr.scraper.browser.composer.enricher.impl;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.net.HttpHeaders;
 import com.zephyr.scraper.domain.RequestContext;
@@ -26,8 +27,8 @@ public class HtmlHeadersProviderTest {
 
     private Map<String, List<String>> expected() {
         return ImmutableMap.<String, List<String>>builder()
-                .put(HttpHeaders.ACCEPT, List.of(ACCEPT))
-                .put(UPGRADE_INSECURE_REQUESTS, List.of(TRUE))
+                .put(HttpHeaders.ACCEPT, ImmutableList.of(ACCEPT))
+                .put(UPGRADE_INSECURE_REQUESTS, ImmutableList.of(TRUE))
                 .build();
     }
 }

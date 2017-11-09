@@ -1,7 +1,8 @@
 package com.zephyr.scraper.crawler.provider.impl;
 
-import com.zephyr.scraper.domain.external.SearchEngine;
+import com.google.common.collect.ImmutableList;
 import com.zephyr.scraper.crawler.fraud.FraudAnalyzer;
+import com.zephyr.scraper.domain.external.SearchEngine;
 import com.zephyr.scraper.internal.CrawlingUtils;
 import com.zephyr.scraper.properties.ScraperProperties;
 import org.junit.Before;
@@ -73,14 +74,14 @@ public class DefaultCrawlingProviderTest {
     }
 
     private List<String> expectedGoogle() {
-        return List.of();
+        return ImmutableList.of();
     }
 
     private List<String> expectedBing() {
-        return List.of();
+        return ImmutableList.of();
     }
 
     private List<String> expectedYahoo() {
-        return List.of();
+        return ImmutableList.of();
     }
 }

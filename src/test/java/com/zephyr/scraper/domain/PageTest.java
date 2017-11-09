@@ -84,28 +84,4 @@ public class PageTest {
         assertTrue(FIRST_PAGE.isNotFirst());
         assertTrue(FIRST_ZERO_BASED_PAGE.isNotLast());
     }
-
-    @Test
-    public void shouldGetNextPage() {
-        assertEquals(SECOND_PAGE, FIRST_PAGE.getNextPage());
-        assertEquals(SECOND_ZERO_BASED_PAGE, FIRST_ZERO_BASED_PAGE.getNextPage());
-    }
-
-    @Test
-    public void shouldReturnTrueOnFirstPage() {
-        assertTrue(FIRST_PAGE.hasNextPage());
-        assertTrue(FIRST_ZERO_BASED_PAGE.hasNextPage());
-    }
-
-    @Test
-    public void shouldReturnTrueOnLastPage() {
-        assertTrue(LAST_PAGE.hasNextPage());
-        assertTrue(LAST_ZERO_BASED_PAGE.hasNextPage());
-    }
-
-    @Test
-    public void shouldReturnFalseOnPageAfterLast() {
-        assertTrue(OUT_BOUND_PAGE.hasNextPage());
-        assertTrue(OUT_BOUND_ZERO_BASED_PAGE.hasNextPage());
-    }
 }

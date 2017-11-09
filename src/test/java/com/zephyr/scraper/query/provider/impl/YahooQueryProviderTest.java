@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static com.zephyr.scraper.internal.PaginationConstants.FIRST_PAGE;
 import static com.zephyr.scraper.internal.PaginationConstants.LAST_PAGE;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -30,7 +30,7 @@ public class YahooQueryProviderTest {
     @Mock
     private QueryContext context;
 
-    private YahooQueryProvider testInstance = new YahooQueryProvider();
+    private final YahooQueryProvider testInstance = new YahooQueryProvider();
 
     @Before
     public void setUp() {

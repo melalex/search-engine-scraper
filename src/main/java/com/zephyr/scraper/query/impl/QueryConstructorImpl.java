@@ -1,9 +1,9 @@
 package com.zephyr.scraper.query.impl;
 
+import com.zephyr.scraper.domain.QueryContext;
 import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.external.Keyword;
 import com.zephyr.scraper.query.QueryConstructor;
-import com.zephyr.scraper.domain.QueryContext;
 import com.zephyr.scraper.query.provider.QueryProvider;
 import com.zephyr.scraper.source.LocationSource;
 import lombok.Setter;

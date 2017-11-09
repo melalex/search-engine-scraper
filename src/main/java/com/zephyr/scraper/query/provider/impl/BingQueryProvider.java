@@ -1,8 +1,8 @@
 package com.zephyr.scraper.query.provider.impl;
 
-import com.zephyr.scraper.domain.external.SearchEngine;
 import com.zephyr.scraper.domain.Page;
 import com.zephyr.scraper.domain.QueryContext;
+import com.zephyr.scraper.domain.external.SearchEngine;
 import com.zephyr.scraper.utils.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

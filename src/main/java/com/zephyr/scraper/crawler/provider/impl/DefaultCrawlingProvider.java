@@ -1,9 +1,9 @@
 package com.zephyr.scraper.crawler.provider.impl;
 
+import com.zephyr.scraper.crawler.fraud.FraudAnalyzer;
 import com.zephyr.scraper.crawler.provider.CrawlingProvider;
 import com.zephyr.scraper.domain.Response;
 import com.zephyr.scraper.domain.external.SearchEngine;
-import com.zephyr.scraper.crawler.fraud.FraudAnalyzer;
 import com.zephyr.scraper.properties.ScraperProperties;
 import lombok.Setter;
 import org.jsoup.Jsoup;

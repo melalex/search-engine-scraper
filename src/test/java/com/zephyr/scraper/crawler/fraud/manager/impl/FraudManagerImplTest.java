@@ -1,15 +1,15 @@
 package com.zephyr.scraper.crawler.fraud.manager.impl;
 
-import com.zephyr.scraper.domain.external.SearchEngine;
 import com.zephyr.scraper.crawler.fraud.provider.impl.DefaultFraudProvider;
 import com.zephyr.scraper.crawler.fraud.provider.impl.GoogleFraudProvider;
+import com.zephyr.scraper.domain.external.SearchEngine;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
 public class FraudManagerImplTest {
-    private FraudManagerImpl testInstance = new FraudManagerImpl();
+    private final FraudManagerImpl testInstance = new FraudManagerImpl();
 
     @Before
     public void setUp() {

@@ -13,7 +13,7 @@ public class DuckDuckGoCrawlingProviderTest {
     private static final String YANDEX_RESPONSE = "yandex-response";
     private static final SearchEngine PROVIDER = SearchEngine.YANDEX;
 
-    private DuckDuckGoCrawlingProvider testInstance = new DuckDuckGoCrawlingProvider();
+    private final DuckDuckGoCrawlingProvider testInstance = new DuckDuckGoCrawlingProvider();
 
     @Test
     public void shouldProvide() {

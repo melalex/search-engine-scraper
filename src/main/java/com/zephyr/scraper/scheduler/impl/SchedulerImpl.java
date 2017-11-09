@@ -1,11 +1,11 @@
 package com.zephyr.scraper.scheduler.impl;
 
-import com.zephyr.scraper.scheduler.Scheduler;
-import com.zephyr.scraper.scheduler.strategy.RequestStrategy;
 import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.RequestContext;
 import com.zephyr.scraper.domain.external.SearchEngine;
 import com.zephyr.scraper.properties.ScraperProperties;
+import com.zephyr.scraper.scheduler.Scheduler;
+import com.zephyr.scraper.scheduler.strategy.RequestStrategy;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

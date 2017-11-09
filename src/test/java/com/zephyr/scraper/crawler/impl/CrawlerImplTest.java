@@ -1,5 +1,6 @@
 package com.zephyr.scraper.crawler.impl;
 
+import com.google.common.collect.ImmutableList;
 import com.zephyr.scraper.crawler.manager.CrawlingManager;
 import com.zephyr.scraper.crawler.provider.CrawlingProvider;
 import com.zephyr.scraper.domain.Response;
@@ -42,6 +43,6 @@ public class CrawlerImplTest {
     }
 
     private List<String> result() {
-        return List.of("result");
+        return ImmutableList.of("result");
     }
 }

@@ -1,5 +1,6 @@
 package com.zephyr.scraper.flow.impl;
 
+import com.google.common.collect.ImmutableList;
 import com.zephyr.scraper.browser.Browser;
 import com.zephyr.scraper.crawler.Crawler;
 import com.zephyr.scraper.domain.Request;
@@ -23,7 +24,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.time.*;
+import java.time.Clock;
+import java.time.Duration;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -160,7 +162,7 @@ public class ScrapingFlowImplTest {
     }
 
     private List<String> createLinks() {
-        return List.of("Link1", "Link1", "Link1");
+        return ImmutableList.of("Link1", "Link1", "Link1");
     }
 
     private ScraperProperties.BrowserProperties createBrowserProperties() {

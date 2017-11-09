@@ -11,7 +11,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Map;
 
-import static com.zephyr.scraper.internal.PaginationConstants.*;
+import static com.zephyr.scraper.internal.PaginationConstants.FIRST_PAGE;
+import static com.zephyr.scraper.internal.PaginationConstants.LAST_PAGE;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -45,7 +46,7 @@ public class GoogleQueryProviderTest {
     @Mock
     private QueryContext context;
 
-    private GoogleQueryProvider testInstance = new GoogleQueryProvider();
+    private final GoogleQueryProvider testInstance = new GoogleQueryProvider();
 
     @Before
     public void setUp() {

@@ -1,8 +1,8 @@
 package com.zephyr.scraper.scheduler.strategy.impl;
 
-import com.zephyr.scraper.scheduler.strategy.RequestStrategy;
 import com.zephyr.scraper.domain.RequestContext;
 import com.zephyr.scraper.domain.external.SearchEngine;
+import com.zephyr.scraper.scheduler.strategy.RequestStrategy;
 import com.zephyr.scraper.source.ProxySource;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

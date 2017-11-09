@@ -1,5 +1,6 @@
 package com.zephyr.scraper.browser.composer.managers.impl;
 
+import com.google.common.collect.ImmutableSet;
 import com.zephyr.scraper.browser.composer.enricher.HeadersProvider;
 import com.zephyr.scraper.browser.composer.managers.HeadersManager;
 import com.zephyr.scraper.domain.RequestContext;
@@ -14,7 +15,7 @@ import java.util.Set;
 
 @Component
 public class EngineSpecificManager implements HeadersManager {
-    private static final Set<SearchEngine> SINGLE_PAGE_ENGINES = Set.of(SearchEngine.DUCKDUCKGO, SearchEngine.YANDEX);
+    private static final Set<SearchEngine> SINGLE_PAGE_ENGINES = ImmutableSet.of(SearchEngine.DUCKDUCKGO, SearchEngine.YANDEX);
 
     @Setter(onMethod = @__(@Autowired))
     private HeadersProvider ajaxHeadersProvider;

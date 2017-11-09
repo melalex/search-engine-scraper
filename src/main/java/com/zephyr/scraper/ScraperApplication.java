@@ -5,8 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.time.Clock;
-import java.time.Instant;
-import java.time.ZoneId;
 
 @SpringBootApplication
 public class ScraperApplication {

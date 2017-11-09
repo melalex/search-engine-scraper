@@ -1,11 +1,13 @@
 package com.zephyr.scraper.domain;
 
 import lombok.Value;
+import lombok.experimental.Wither;
 
 @Value(staticConstructor = "of")
 public class Page {
-    private int first;
+    @Wither
     private int page;
+    private int first;
     private int pageSize;
     private int count;
 
@@ -35,13 +37,5 @@ public class Page {
 
     public boolean isNotLast() {
         return !isLast();
-    }
-
-    public Page getNextPage() {
-        return Page.of(first, page + 1, pageSize, count);
-    }
-
-    public boolean hasNextPage() {
-        return page > getLastPage();
     }
 }

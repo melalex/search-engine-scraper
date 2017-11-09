@@ -1,5 +1,6 @@
 package com.zephyr.scraper.query.provider.impl;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.zephyr.scraper.domain.Page;
 import com.zephyr.scraper.domain.QueryContext;
@@ -37,26 +38,11 @@ public class AbstractQueryProviderTest {
     private static final String PARAM = "PARAM";
     private static final String VALUE = "VALUE";
 
-    private static final Map<String, ?> FIRST_PAGE_PARAMS = ImmutableMap.<String, Object>builder()
-            .put(FIRST_PARAM, FIRST_VALUE)
-            .build();
-
-    private static final Map<String, ?> SECOND_PAGE_PARAMS = ImmutableMap.<String, Object>builder()
-            .put(SECOND_PARAM, SECOND_VALUE)
-            .build();
-
-    private static final Map<String, ?> THIRD_PAGE_PARAMS = ImmutableMap.<String, Object>builder()
-            .put(PARAM, VALUE)
-            .build();
-
-    private static final Map<String, ?> FOURTH_PAGE_PARAMS = ImmutableMap.<String, Object>builder()
-            .put(PARAM, VALUE)
-            .build();
-
-    private static final Map<String, ?> FIFTH_PAGE_PARAMS = ImmutableMap.<String, Object>builder()
-            .put(PARAM, VALUE)
-            .build();
-
+    private static final Map<String, ?> FIRST_PAGE_PARAMS = ImmutableMap.of(FIRST_PARAM, FIRST_VALUE);
+    private static final Map<String, ?> SECOND_PAGE_PARAMS = ImmutableMap.of(SECOND_PARAM, SECOND_VALUE);
+    private static final Map<String, ?> THIRD_PAGE_PARAMS = ImmutableMap.of(PARAM, VALUE);
+    private static final Map<String, ?> FOURTH_PAGE_PARAMS = ImmutableMap.of(PARAM, VALUE);
+    private static final Map<String, ?> FIFTH_PAGE_PARAMS = ImmutableMap.of(PARAM, VALUE);
 
     @Mock
     private QueryContext context;
@@ -110,7 +96,7 @@ public class AbstractQueryProviderTest {
     }
 
     private List<Request> expected() {
-        return List.of(
+        return ImmutableList.of(
                 createRequest(FIRST_PAGE_PARAMS),
                 createRequest(SECOND_PAGE_PARAMS),
                 createRequest(THIRD_PAGE_PARAMS),

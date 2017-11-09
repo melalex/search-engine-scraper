@@ -1,7 +1,6 @@
 package com.zephyr.scraper.flow.impl;
 
 import com.zephyr.scraper.browser.Browser;
-import com.zephyr.scraper.scheduler.Scheduler;
 import com.zephyr.scraper.crawler.Crawler;
 import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.RequestContext;
@@ -12,6 +11,7 @@ import com.zephyr.scraper.domain.external.SearchResult;
 import com.zephyr.scraper.flow.ScrapingFlow;
 import com.zephyr.scraper.properties.ScraperProperties;
 import com.zephyr.scraper.query.QueryConstructor;
+import com.zephyr.scraper.scheduler.Scheduler;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;

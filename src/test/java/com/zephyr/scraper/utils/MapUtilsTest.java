@@ -1,5 +1,7 @@
 package com.zephyr.scraper.utils;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import org.junit.Test;
 
 import java.util.Map;
@@ -11,7 +13,7 @@ public class MapUtilsTest {
     private static final String FIRST_VALUE = "value1";
     private static final String SECOND_KEY = "key2";
 
-    private static final Map<String, String> TEST_MAP = Map.of(FIRST_KEY, FIRST_VALUE);
+    private static final Map<String, String> TEST_MAP = ImmutableMap.of(FIRST_KEY, FIRST_VALUE);
 
     @Test
     public void shouldGet() {

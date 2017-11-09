@@ -28,7 +28,7 @@ public class DuckDuckGoQueryProviderTest {
     @Mock
     private QueryContext context;
 
-    private DuckDuckGoQueryProvider testInstance = new DuckDuckGoQueryProvider();
+    private final DuckDuckGoQueryProvider testInstance = new DuckDuckGoQueryProvider();
 
     @Before
     public void setUp() {

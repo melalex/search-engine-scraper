@@ -1,5 +1,6 @@
 package com.zephyr.scraper.query.impl;
 
+import com.google.common.collect.ImmutableList;
 import com.zephyr.scraper.domain.QueryContext;
 import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.external.Keyword;
@@ -45,23 +46,23 @@ public class QueryConstructorImplTest {
     @InjectMocks
     private QueryConstructorImpl testInstance;
 
-    private Request firstRequest = Request.builder()
+    private final Request firstRequest = Request.builder()
             .keyword(keyword)
             .baseUrl(FIRST_URL)
             .build();
 
-    private Request secondRequest = Request.builder()
+    private final Request secondRequest = Request.builder()
             .keyword(keyword)
             .baseUrl(SECOND_URL)
             .build();
 
     @Before
     public void setUp() {
-        testInstance.setProviders(List.of(firstProvider, secondProvider));
+        testInstance.setProviders(ImmutableList.of(firstProvider, secondProvider));
 
         when(locationSource.findPlace(COUNTRY_ISO, PLACE_NAME)).thenReturn(Mono.just(place));
-        when(firstProvider.provide(QueryContext.of(keyword, place))).thenReturn(List.of(firstRequest));
-        when(secondProvider.provide(QueryContext.of(keyword, place))).thenReturn(List.of(secondRequest));
+        when(firstProvider.provide(QueryContext.of(keyword, place))).thenReturn(ImmutableList.of(firstRequest));
+        when(secondProvider.provide(QueryContext.of(keyword, place))).thenReturn(ImmutableList.of(secondRequest));
     }
 
     @Test

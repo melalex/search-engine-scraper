@@ -30,7 +30,7 @@ public class BingQueryProviderTest {
     @Mock
     private QueryContext context;
 
-    private BingQueryProvider testInstance = new BingQueryProvider();
+    private final BingQueryProvider testInstance = new BingQueryProvider();
 
     @Before
     public void setUp() {
