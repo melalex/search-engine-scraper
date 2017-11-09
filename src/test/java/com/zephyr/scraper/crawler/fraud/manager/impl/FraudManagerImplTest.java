@@ -1,8 +1,8 @@
-package com.zephyr.scraper.fraud.manager.impl;
+package com.zephyr.scraper.crawler.fraud.manager.impl;
 
 import com.zephyr.scraper.domain.external.SearchEngine;
-import com.zephyr.scraper.fraud.provider.impl.DefaultFraudProvider;
-import com.zephyr.scraper.fraud.provider.impl.GoogleFraudProvider;
+import com.zephyr.scraper.crawler.fraud.provider.impl.DefaultFraudProvider;
+import com.zephyr.scraper.crawler.fraud.provider.impl.GoogleFraudProvider;
 import org.junit.Before;
 import org.junit.Test;
 

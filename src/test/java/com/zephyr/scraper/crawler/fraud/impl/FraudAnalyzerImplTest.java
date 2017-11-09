@@ -1,9 +1,9 @@
-package com.zephyr.scraper.fraud.impl;
+package com.zephyr.scraper.crawler.fraud.impl;
 
 import com.zephyr.scraper.domain.exceptions.FraudException;
 import com.zephyr.scraper.domain.external.SearchEngine;
-import com.zephyr.scraper.fraud.manager.FraudManager;
-import com.zephyr.scraper.fraud.provider.FraudProvider;
+import com.zephyr.scraper.crawler.fraud.manager.FraudManager;
+import com.zephyr.scraper.crawler.fraud.provider.FraudProvider;
 import org.jsoup.nodes.Document;
 import org.junit.Before;
 import org.junit.Test;

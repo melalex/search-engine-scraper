@@ -1,7 +1,7 @@
-package com.zephyr.scraper.fraud.manager;
+package com.zephyr.scraper.crawler.fraud.manager;
 
 import com.zephyr.scraper.domain.external.SearchEngine;
-import com.zephyr.scraper.fraud.provider.FraudProvider;
+import com.zephyr.scraper.crawler.fraud.provider.FraudProvider;
 
 @FunctionalInterface
 public interface FraudManager {

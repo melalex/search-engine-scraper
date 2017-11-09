@@ -1,6 +1,6 @@
-package com.zephyr.scraper.fraud.provider.impl;
+package com.zephyr.scraper.crawler.fraud.provider.impl;
 
-import com.zephyr.scraper.fraud.provider.FraudProvider;
+import com.zephyr.scraper.crawler.fraud.provider.FraudProvider;
 import org.jsoup.nodes.Document;
 
 public class DefaultFraudProvider implements FraudProvider {

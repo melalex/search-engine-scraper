@@ -1,11 +1,11 @@
-package com.zephyr.scraper.fraud.manager.impl;
+package com.zephyr.scraper.crawler.fraud.manager.impl;
 
 import com.google.common.collect.ImmutableMap;
 import com.zephyr.scraper.domain.external.SearchEngine;
-import com.zephyr.scraper.fraud.manager.FraudManager;
-import com.zephyr.scraper.fraud.provider.FraudProvider;
-import com.zephyr.scraper.fraud.provider.impl.DefaultFraudProvider;
-import com.zephyr.scraper.fraud.provider.impl.GoogleFraudProvider;
+import com.zephyr.scraper.crawler.fraud.manager.FraudManager;
+import com.zephyr.scraper.crawler.fraud.provider.FraudProvider;
+import com.zephyr.scraper.crawler.fraud.provider.impl.DefaultFraudProvider;
+import com.zephyr.scraper.crawler.fraud.provider.impl.GoogleFraudProvider;
 import com.zephyr.scraper.utils.MapUtils;
 import org.springframework.stereotype.Component;
 

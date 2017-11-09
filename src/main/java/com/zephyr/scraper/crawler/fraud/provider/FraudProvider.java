@@ -1,4 +1,4 @@
-package com.zephyr.scraper.fraud.provider;
+package com.zephyr.scraper.crawler.fraud.provider;
 
 import org.jsoup.nodes.Document;
 
