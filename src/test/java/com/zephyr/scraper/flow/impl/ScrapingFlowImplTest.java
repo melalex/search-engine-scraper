@@ -7,9 +7,8 @@ import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.RequestContext;
 import com.zephyr.scraper.domain.Response;
 import com.zephyr.scraper.domain.exceptions.BrowserException;
-import com.zephyr.scraper.domain.external.Keyword;
-import com.zephyr.scraper.domain.external.SearchEngine;
 import com.zephyr.scraper.domain.external.SearchResult;
+import com.zephyr.scraper.internal.DomainUtils;
 import com.zephyr.scraper.internal.TimeUtils;
 import com.zephyr.scraper.properties.ScraperProperties;
 import com.zephyr.scraper.query.QueryConstructor;
@@ -39,21 +38,12 @@ public class ScrapingFlowImplTest {
 
     private static final long DURATION_MINUTES = 7;
 
-    private static final SearchEngine PROVIDER = SearchEngine.GOOGLE;
     private static final Duration DURATION = Duration.ofMinutes(DURATION_MINUTES);
     private static final Duration BACKOFF_DURATION = Duration.ofMillis(BACKOFF);
 
-    private final RequestContext context = createRequestContext();
-
-    private final List<String> links = createLinks();
-
-    @Mock
-    private Keyword keyword;
-
-    @Mock
+    private RequestContext context;
+    private List<String> links;
     private Request request;
-
-    @Mock
     private Response response;
 
     @Mock
@@ -81,22 +71,27 @@ public class ScrapingFlowImplTest {
     public void setUp() {
         TimeUtils.configureClock(clock);
 
-        when(request.getProvider()).thenReturn(PROVIDER);
+        request = DomainUtils.requestWith(DomainUtils.ANY_KEYWORD, DomainUtils.ANY_PROVIDER, OFFSET);
+        response = DomainUtils.responseWith(DomainUtils.ANY_PROVIDER);
+        context = createRequestContext();
+        links = createLinks();
+
+        when(request.getProvider()).thenReturn(DomainUtils.ANY_PROVIDER);
         when(request.getOffset()).thenReturn(OFFSET);
-        when(request.getKeyword()).thenReturn(keyword);
-        when(queryConstructor.construct(keyword)).thenReturn(Flux.just(request));
+        when(request.getKeyword()).thenReturn(DomainUtils.ANY_KEYWORD);
+        when(queryConstructor.construct(DomainUtils.ANY_KEYWORD)).thenReturn(Flux.just(request));
 
         when(scheduler.createContext(request)).thenReturn(Mono.just(context));
         when(scraperProperties.getBrowser()).thenReturn(createBrowserProperties());
 
         when(browser.get(context)).thenReturn(response());
 
-        when(crawler.crawl(PROVIDER, response)).thenReturn(links);
+        when(crawler.crawl(DomainUtils.ANY_PROVIDER, response)).thenReturn(links);
     }
 
     @Test
     public void shouldHandle() {
-        StepVerifier.withVirtualTime(() -> testInstance.handle(Flux.just(keyword)))
+        StepVerifier.withVirtualTime(() -> testInstance.handle(Flux.just(DomainUtils.ANY_KEYWORD)))
                 .expectNoEvent(DURATION)
                 .expectNext(expected())
                 .verifyComplete();
@@ -108,7 +103,7 @@ public class ScrapingFlowImplTest {
                 .thenReturn(failedResponse())
                 .thenReturn(response());
 
-        StepVerifier.withVirtualTime(() -> testInstance.handle(Flux.just(keyword)))
+        StepVerifier.withVirtualTime(() -> testInstance.handle(Flux.just(DomainUtils.ANY_KEYWORD)))
                 .expectNoEvent(DURATION)
                 .expectNoEvent(BACKOFF_DURATION)
                 .expectNext(expected())
@@ -123,7 +118,7 @@ public class ScrapingFlowImplTest {
                 .thenReturn(failedResponse())
                 .thenReturn(response());
 
-        StepVerifier.withVirtualTime(() -> testInstance.handle(Flux.just(keyword)))
+        StepVerifier.withVirtualTime(() -> testInstance.handle(Flux.just(DomainUtils.ANY_KEYWORD)))
                 .expectNoEvent(DURATION)
                 .expectNoEvent(BACKOFF_DURATION)
                 .expectNoEvent(BACKOFF_DURATION)
@@ -139,9 +134,9 @@ public class ScrapingFlowImplTest {
     private SearchResult expected() {
         return SearchResult.builder()
                 .offset(OFFSET)
-                .keyword(keyword)
+                .keyword(DomainUtils.ANY_KEYWORD)
                 .links(links)
-                .provider(PROVIDER)
+                .provider(DomainUtils.ANY_PROVIDER)
                 .timestamp(TimeUtils.now())
                 .build();
     }

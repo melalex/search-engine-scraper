@@ -6,7 +6,7 @@ import com.zephyr.scraper.domain.Page;
 import com.zephyr.scraper.domain.QueryContext;
 import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.external.Keyword;
-import com.zephyr.scraper.domain.external.SearchEngine;
+import com.zephyr.scraper.internal.DomainUtils;
 import com.zephyr.scraper.properties.ScraperProperties;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +24,6 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AbstractQueryProviderTest {
-    private static final SearchEngine SEARCH_ENGINE = SearchEngine.GOOGLE;
     private static final Keyword KEYWORD = new Keyword();
 
     private static final String URL = "URL";
@@ -44,7 +43,6 @@ public class AbstractQueryProviderTest {
     private static final Map<String, ?> FOURTH_PAGE_PARAMS = ImmutableMap.of(PARAM, VALUE);
     private static final Map<String, ?> FIFTH_PAGE_PARAMS = ImmutableMap.of(PARAM, VALUE);
 
-    @Mock
     private QueryContext context;
 
     @Mock
@@ -54,7 +52,7 @@ public class AbstractQueryProviderTest {
     private ScraperProperties.EngineProperties engineProperties;
 
     @InjectMocks
-    private final AbstractQueryProvider testInstance = new AbstractQueryProvider(SEARCH_ENGINE) {
+    private final AbstractQueryProvider testInstance = new AbstractQueryProvider(DomainUtils.ANY_PROVIDER) {
 
         @Override
         protected String provideBaseUrl(QueryContext context) {
@@ -82,12 +80,12 @@ public class AbstractQueryProviderTest {
 
     @Before
     public void setUp() {
-        when(scraperProperties.getScraper(SEARCH_ENGINE)).thenReturn(engineProperties);
+        when(scraperProperties.getScraper(DomainUtils.ANY_PROVIDER)).thenReturn(engineProperties);
         when(engineProperties.getFirst()).thenReturn(FIRST_ROW);
         when(engineProperties.getPageSize()).thenReturn(PAGE_SIZE);
         when(engineProperties.getResultCount()).thenReturn(ROW_COUNT);
 
-        when(context.getKeyword()).thenReturn(KEYWORD);
+        context = QueryContext.of(DomainUtils.ANY_KEYWORD, DomainUtils.ANY_PLACE);
     }
 
     @Test
@@ -108,7 +106,7 @@ public class AbstractQueryProviderTest {
     private Request createRequest(Map<String, ?> params) {
         return Request.builder()
                 .keyword(KEYWORD)
-                .provider(SEARCH_ENGINE)
+                .provider(DomainUtils.ANY_PROVIDER)
                 .baseUrl(URL)
                 .uri(ROOT)
                 .params(params)

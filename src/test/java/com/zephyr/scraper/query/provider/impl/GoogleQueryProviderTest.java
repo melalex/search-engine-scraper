@@ -2,11 +2,12 @@ package com.zephyr.scraper.query.provider.impl;
 
 import com.google.common.collect.ImmutableMap;
 import com.zephyr.scraper.domain.QueryContext;
-import com.zephyr.scraper.domain.external.CountryDto;
+import com.zephyr.scraper.domain.external.Keyword;
+import com.zephyr.scraper.domain.external.PlaceDto;
+import com.zephyr.scraper.internal.DomainUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Map;
@@ -14,7 +15,6 @@ import java.util.Map;
 import static com.zephyr.scraper.internal.PaginationConstants.FIRST_PAGE;
 import static com.zephyr.scraper.internal.PaginationConstants.LAST_PAGE;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GoogleQueryProviderTest {
@@ -40,22 +40,13 @@ public class GoogleQueryProviderTest {
     private static final String LANGUAGE_ISO = "en";
     private static final long PARENT_LOCATION = 1488;
 
-    @Mock
-    private CountryDto country;
-
-    @Mock
     private QueryContext context;
 
     private final GoogleQueryProvider testInstance = new GoogleQueryProvider();
 
     @Before
     public void setUp() {
-        when(country.getLocaleGoogle()).thenReturn(LOCAL_GOOGLE);
-        when(context.getCountry()).thenReturn(country);
-        when(context.getWord()).thenReturn(QUERY_VALUE);
-        when(context.getParent()).thenReturn(PARENT_LOCATION);
-        when(context.getLocation()).thenReturn(UULE);
-        when(context.getLanguageIso()).thenReturn(LANGUAGE_ISO);
+        context = QueryContext.of(createKeyword(), createPlace());
     }
 
     @Test
@@ -65,7 +56,7 @@ public class GoogleQueryProviderTest {
 
     @Test
     public void shouldProvideDefaultUrl() {
-        when(country.getLocaleGoogle()).thenReturn(null);
+        context.getCountry().setLocaleGoogle(null);
 
         assertEquals(DEFAULT_LOCAL_GOOGLE, testInstance.provideBaseUrl(context));
     }
@@ -117,5 +108,22 @@ public class GoogleQueryProviderTest {
                 .put(PARENT, "g:" + PARENT_LOCATION)
                 .put(LOCATION, context.getLocation())
                 .build();
+    }
+
+    private Keyword createKeyword() {
+        Keyword keyword = new Keyword();
+        keyword.setWord(QUERY_VALUE);
+        keyword.setLanguageIso(LANGUAGE_ISO);
+
+        return keyword;
+    }
+
+    private PlaceDto createPlace() {
+        PlaceDto place = new PlaceDto();
+        place.setCountry(DomainUtils.countryWithGoogle(LOCAL_GOOGLE));
+        place.setParent(PARENT_LOCATION);
+        place.setLocation(UULE);
+
+        return place;
     }
 }

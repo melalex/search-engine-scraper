@@ -2,11 +2,9 @@ package com.zephyr.scraper.query.provider.impl;
 
 import com.google.common.collect.ImmutableMap;
 import com.zephyr.scraper.domain.QueryContext;
+import com.zephyr.scraper.internal.DomainUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Map;
 
@@ -15,7 +13,6 @@ import static com.zephyr.scraper.internal.PaginationConstants.LAST_PAGE;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
 public class BingQueryProviderTest {
     private static final String URL = "www.bing.com";
     private static final String URI = "/search";
@@ -27,14 +24,13 @@ public class BingQueryProviderTest {
     private static final String QUERY_VALUE = "query value";
     private static final String QUERY_WITH_LANGUAGE_VALUE = "query value language:" + LANGUAGE;
 
-    @Mock
     private QueryContext context;
 
     private final BingQueryProvider testInstance = new BingQueryProvider();
 
     @Before
     public void setUp() {
-        when(context.getWord()).thenReturn(QUERY_VALUE);
+        context = QueryContext.of(DomainUtils.keywordWith(QUERY_VALUE), DomainUtils.ANY_PLACE);
     }
 
     @Test

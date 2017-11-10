@@ -10,14 +10,14 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class YandexCrawlingProviderTest {
-    private static final String DUCKDUCKGO_RESPONSE = "duckduckgo-response";
-    private static final SearchEngine PROVIDER = SearchEngine.DUCKDUCKGO;
+    private static final String YANDEX_RESPONSE = "yandex-response.json";
+    private static final SearchEngine PROVIDER = SearchEngine.YANDEX;
 
     private final YandexCrawlingProvider testInstance = new YandexCrawlingProvider();
 
     @Test
     public void shouldProvide() {
-        assertEquals(expected(), testInstance.provide(CrawlingUtils.toResponse(DUCKDUCKGO_RESPONSE, PROVIDER)));
+        assertEquals(expected(), testInstance.provide(CrawlingUtils.toResponse(YANDEX_RESPONSE, PROVIDER)));
     }
 
     private List<String> expected() {

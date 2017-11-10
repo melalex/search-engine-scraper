@@ -25,16 +25,8 @@ public class SchedulerImpl implements Scheduler {
     @Setter(onMethod = @__(@Autowired))
     private RequestStrategy directRequestStrategy;
 
-    @Setter(onMethod = @__(@Autowired(required = false)))
+    @Setter(onMethod = @__(@Autowired))
     private RequestStrategy proxyRequestStrategy;
-
-    @PostConstruct
-    public void init() {
-        if (Objects.isNull(proxyRequestStrategy)) {
-            log.warn("ProxySource bean is missing. Use direct strategy");
-            proxyRequestStrategy = directRequestStrategy;
-        }
-    }
 
     @Override
     public Mono<RequestContext> createContext(Request request) {

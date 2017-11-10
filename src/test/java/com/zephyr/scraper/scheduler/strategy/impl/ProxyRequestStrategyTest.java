@@ -27,7 +27,6 @@ public class ProxyRequestStrategyTest {
     private static final SearchEngine PROVIDER = SearchEngine.GOOGLE;
     private static final Duration DURATION = Duration.ofMillis(DELAY);
 
-    @Mock
     private Proxy proxy;
 
     @Mock
@@ -43,10 +42,18 @@ public class ProxyRequestStrategyTest {
     public void setUp() {
         TimeUtils.configureClock(clock);
 
-        when(proxy.getId()).thenReturn(PROXY_ID);
-        when(proxy.getSchedule()).thenReturn(TimeUtils.now().plus(DURATION));
+        proxy = createProxy();
+
         when(proxySource.reserve(PROVIDER)).thenReturn(Mono.just(proxy));
         when(proxySource.report(PROXY_ID, PROVIDER)).thenReturn(Mono.empty());
+    }
+
+    private Proxy createProxy() {
+        Proxy proxy = new Proxy();
+        proxy.setId(PROXY_ID);
+        proxy.setSchedule(TimeUtils.now().plus(DURATION));
+
+        return proxy;
     }
 
     @Test

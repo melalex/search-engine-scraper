@@ -2,17 +2,16 @@ package com.zephyr.scraper.query.provider.impl;
 
 import com.google.common.collect.ImmutableMap;
 import com.zephyr.scraper.domain.QueryContext;
+import com.zephyr.scraper.internal.DomainUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Map;
 
 import static com.zephyr.scraper.internal.PaginationConstants.FIRST_PAGE;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DuckDuckGoQueryProviderTest {
@@ -25,14 +24,13 @@ public class DuckDuckGoQueryProviderTest {
 
     private static final String QUERY_VALUE = "query value";
 
-    @Mock
     private QueryContext context;
 
     private final DuckDuckGoQueryProvider testInstance = new DuckDuckGoQueryProvider();
 
     @Before
     public void setUp() {
-        when(context.getWord()).thenReturn(QUERY_VALUE);
+        context = QueryContext.of(DomainUtils.keywordWith(QUERY_VALUE), DomainUtils.ANY_PLACE);
     }
 
     @Test

@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 
 @Slf4j
 @Component
-@ConditionalOnBean(ProxySource.class)
 public class ProxyRequestStrategy implements RequestStrategy {
 
     @Setter(onMethod = @__(@Autowired))

@@ -2,7 +2,8 @@ package com.zephyr.scraper.query.provider.impl;
 
 import com.google.common.collect.ImmutableMap;
 import com.zephyr.scraper.domain.QueryContext;
-import com.zephyr.scraper.domain.external.CountryDto;
+import com.zephyr.scraper.domain.external.PlaceDto;
+import com.zephyr.scraper.internal.DomainUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +15,6 @@ import java.util.Map;
 import static com.zephyr.scraper.internal.PaginationConstants.FIRST_PAGE;
 import static com.zephyr.scraper.internal.PaginationConstants.LAST_PAGE;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class YandexQueryProviderTest {
@@ -26,19 +26,13 @@ public class YandexQueryProviderTest {
     private static final String DEFAULT_YANDEX = "yandex.ru";
     private static final String QUERY_VALUE = "query value";
 
-    @Mock
-    private CountryDto country;
-
-    @Mock
     private QueryContext context;
 
     private final YandexQueryProvider testInstance = new YandexQueryProvider();
 
     @Before
     public void setUp() {
-        when(context.getWord()).thenReturn(QUERY_VALUE);
-        when(context.getCountry()).thenReturn(country);
-        when(country.getLocaleYandex()).thenReturn(LOCAL_YANDEX);
+        context = QueryContext.of(DomainUtils.keywordWith(QUERY_VALUE), createPlace());
     }
 
     @Test
@@ -48,7 +42,7 @@ public class YandexQueryProviderTest {
 
     @Test
     public void shouldProvideDefaultUrl() {
-        when(country.getLocaleYandex()).thenReturn(null);
+        context.getCountry().setLocaleYandex(null);
 
         assertEquals(DEFAULT_YANDEX, testInstance.provideBaseUrl(context));
     }
@@ -72,5 +66,12 @@ public class YandexQueryProviderTest {
                 .build();
 
         assertEquals(expected, testInstance.provideParams(context, LAST_PAGE));
+    }
+
+    private PlaceDto createPlace() {
+        PlaceDto place = new PlaceDto();
+        place.setCountry(DomainUtils.countryWithYandex(LOCAL_YANDEX));
+
+        return place;
     }
 }

@@ -23,7 +23,7 @@ public class GoogleFraudProviderTest {
     @Mock
     private Elements elements;
 
-    private GoogleFraudProvider testInstance;
+    private final GoogleFraudProvider testInstance = new GoogleFraudProvider();
 
     @Before
     public void setUp() {

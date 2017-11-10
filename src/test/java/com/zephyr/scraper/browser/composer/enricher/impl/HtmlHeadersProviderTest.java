@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.net.HttpHeaders;
 import com.zephyr.scraper.domain.RequestContext;
+import com.zephyr.scraper.internal.DomainUtils;
 import org.junit.Test;
 
 import java.util.List;
@@ -16,13 +17,11 @@ public class HtmlHeadersProviderTest {
     private static final String ACCEPT = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
     private static final String TRUE = "1";
 
-    private static final RequestContext DOES_NOT_MATTER = null;
-
     private final HtmlHeadersProvider testInstance = new HtmlHeadersProvider();
 
     @Test
     public void shouldProvide() {
-        assertEquals(expected(), testInstance.provide(DOES_NOT_MATTER));
+        assertEquals(expected(), testInstance.provide(DomainUtils.ANY_REQUEST_CONTEXT));
     }
 
     private Map<String, List<String>> expected() {

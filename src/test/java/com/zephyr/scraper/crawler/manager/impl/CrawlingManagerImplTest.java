@@ -13,6 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CrawlingManagerImplTest {
+
     @Mock
     private CrawlingProvider defaultCrawlingProvider;
 

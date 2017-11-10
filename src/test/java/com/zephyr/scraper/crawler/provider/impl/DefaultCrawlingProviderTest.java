@@ -25,9 +25,9 @@ public class DefaultCrawlingProviderTest {
     private static final String BING_LINK_SELECTOR = "LINK_SELECTOR";
     private static final String YAHOO_LINK_SELECTOR = "LINK_SELECTOR";
 
-    private static final String BING_RESPONSE = "bing-response";
-    private static final String GOOGLE_RESPONSE = "google-response";
-    private static final String YAHOO_RESPONSE = "yahoo-response";
+    private static final String BING_RESPONSE = "bing-response.html";
+    private static final String GOOGLE_RESPONSE = "google-response.html";
+    private static final String YAHOO_RESPONSE = "yahoo-response.html";
 
     @Mock
     private ScraperProperties scraperProperties;

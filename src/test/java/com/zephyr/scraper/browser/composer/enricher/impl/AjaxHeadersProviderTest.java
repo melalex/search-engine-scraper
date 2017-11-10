@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.net.HttpHeaders;
 import com.zephyr.scraper.domain.RequestContext;
+import com.zephyr.scraper.internal.DomainUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,24 +17,15 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
 public class AjaxHeadersProviderTest {
     private static final String ACCEPT = "*/*";
     private static final String BASE_URL = "BASE_URL";
 
-    @Mock
-    private RequestContext context;
-
     private final AjaxHeadersProvider testInstance = new AjaxHeadersProvider();
-
-    @Before
-    public void setUp() {
-        when(context.getBaseUrl()).thenReturn(BASE_URL);
-    }
 
     @Test
     public void shouldProvide() {
-        assertEquals(expected(), testInstance.provide(context));
+        assertEquals(expected(), testInstance.provide(DomainUtils.requestContextWith(BASE_URL)));
     }
 
     private Map<String, List<String>> expected() {
