@@ -1,7 +1,6 @@
 package com.zephyr.scraper.utils;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import org.junit.Test;
 
 import java.util.Map;

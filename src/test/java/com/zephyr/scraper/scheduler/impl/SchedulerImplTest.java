@@ -5,6 +5,7 @@ import com.zephyr.scraper.domain.RequestContext;
 import com.zephyr.scraper.domain.external.SearchEngine;
 import com.zephyr.scraper.properties.ScraperProperties;
 import com.zephyr.scraper.scheduler.strategy.RequestStrategy;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,7 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.intThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -42,10 +44,27 @@ public class SchedulerImplTest {
 
     @Before
     public void setUp() {
+        testInstance.init();
+
         when(directRequestStrategy.configureAndBuild(PROVIDER, any())).thenReturn(context());
         when(proxyRequestStrategy.configureAndBuild(PROVIDER, any())).thenReturn(context());
 
         when(request.getProvider()).thenReturn(PROVIDER);
+    }
+
+    @After
+    public void tearDown() {
+        testInstance.setProxyRequestStrategy(proxyRequestStrategy);
+    }
+
+    @Test
+    public void shouldInitDirectStrategy() {
+        testInstance.setProxyRequestStrategy(null);
+        testInstance.init();
+
+        test();
+
+        verify(directRequestStrategy).configureAndBuild(PROVIDER, any());
     }
 
     @Test

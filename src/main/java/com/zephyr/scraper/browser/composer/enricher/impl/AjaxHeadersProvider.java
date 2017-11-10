@@ -2,7 +2,6 @@ package com.zephyr.scraper.browser.composer.enricher.impl;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.google.common.net.HttpHeaders;
 import com.zephyr.scraper.browser.composer.enricher.HeadersProvider;
 import com.zephyr.scraper.domain.RequestContext;

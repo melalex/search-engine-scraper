@@ -7,6 +7,7 @@ import com.zephyr.scraper.source.ProxySource;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 
 @Slf4j
 @Component
+@ConditionalOnBean(ProxySource.class)
 public class ProxyRequestStrategy implements RequestStrategy {
 
     @Setter(onMethod = @__(@Autowired))

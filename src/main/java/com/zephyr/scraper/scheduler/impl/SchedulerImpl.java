@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.PostConstruct;
+import java.util.Objects;
+
 @Slf4j
 @Component
 public class SchedulerImpl implements Scheduler {
@@ -22,8 +25,16 @@ public class SchedulerImpl implements Scheduler {
     @Setter(onMethod = @__(@Autowired))
     private RequestStrategy directRequestStrategy;
 
-    @Setter(onMethod = @__(@Autowired))
+    @Setter(onMethod = @__(@Autowired(required = false)))
     private RequestStrategy proxyRequestStrategy;
+
+    @PostConstruct
+    public void init() {
+        if (Objects.isNull(proxyRequestStrategy)) {
+            log.warn("ProxySource bean is missing. Use direct strategy");
+            proxyRequestStrategy = directRequestStrategy;
+        }
+    }
 
     @Override
     public Mono<RequestContext> createContext(Request request) {
