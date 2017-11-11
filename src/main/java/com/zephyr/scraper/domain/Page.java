@@ -5,6 +5,7 @@ import lombok.experimental.Wither;
 
 @Value(staticConstructor = "of")
 public class Page {
+
     @Wither
     private int page;
     private int first;
@@ -12,7 +13,7 @@ public class Page {
     private int count;
 
     public int getPageSize() {
-        return isNotLast() ? pageSize : count - getStart();
+        return isNotLast() ? pageSize : count - getStart() + first;
     }
 
     public int getStart() {
@@ -20,7 +21,7 @@ public class Page {
     }
 
     public int getLastPage() {
-        return (int) Math.ceil(count / pageSize) - 1;
+        return (int) Math.ceil(count / pageSize);
     }
 
     public boolean isFirst() {

@@ -74,6 +74,8 @@ public class GoogleQueryProviderTest {
                 .put(START, LAST_PAGE.getStart())
                 .build();
 
+        context.getKeyword().setLanguageIso(null);
+
         assertEquals(expected, testInstance.provideParams(context, LAST_PAGE));
     }
 
@@ -83,6 +85,8 @@ public class GoogleQueryProviderTest {
                 .putAll(defaultParams())
                 .put(NUMBER, FIRST_PAGE.getPageSize())
                 .build();
+
+        context.getKeyword().setLanguageIso(null);
 
         assertEquals(expected, testInstance.provideParams(context, FIRST_PAGE));
     }

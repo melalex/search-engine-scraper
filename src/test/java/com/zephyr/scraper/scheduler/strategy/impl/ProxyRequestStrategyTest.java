@@ -1,8 +1,9 @@
 package com.zephyr.scraper.scheduler.strategy.impl;
 
+import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.RequestContext;
 import com.zephyr.scraper.domain.external.Proxy;
-import com.zephyr.scraper.domain.external.SearchEngine;
+import com.zephyr.scraper.internal.DomainUtils;
 import com.zephyr.scraper.internal.TimeUtils;
 import com.zephyr.scraper.source.ProxySource;
 import org.junit.Before;
@@ -24,7 +25,6 @@ import static org.mockito.Mockito.when;
 public class ProxyRequestStrategyTest {
     private static final long DELAY = 5000;
     private static final String PROXY_ID = "PROXY_ID";
-    private static final SearchEngine PROVIDER = SearchEngine.GOOGLE;
     private static final Duration DURATION = Duration.ofMillis(DELAY);
 
     private Proxy proxy;
@@ -44,8 +44,8 @@ public class ProxyRequestStrategyTest {
 
         proxy = createProxy();
 
-        when(proxySource.reserve(PROVIDER)).thenReturn(Mono.just(proxy));
-        when(proxySource.report(PROXY_ID, PROVIDER)).thenReturn(Mono.empty());
+        when(proxySource.reserve(DomainUtils.ANY_PROVIDER)).thenReturn(Mono.just(proxy));
+        when(proxySource.report(PROXY_ID, DomainUtils.ANY_PROVIDER)).thenReturn(Mono.empty());
     }
 
     private Proxy createProxy() {
@@ -58,7 +58,10 @@ public class ProxyRequestStrategyTest {
 
     @Test
     public void shouldConfigure() {
-        StepVerifier.create(testInstance.configureAndBuild(PROVIDER, RequestContext.builder()))
+        RequestContext.RequestContextBuilder builder = RequestContext.builder()
+                .request(Request.builder().provider(DomainUtils.ANY_PROVIDER).build());
+
+        StepVerifier.create(testInstance.configureAndBuild(DomainUtils.ANY_PROVIDER, builder))
                 .expectNext(expected())
                 .verifyComplete();
     }
@@ -67,13 +70,14 @@ public class ProxyRequestStrategyTest {
     public void shouldReport() {
         testInstance.report(expected());
 
-        verify(proxySource).report(PROXY_ID, PROVIDER);
+        verify(proxySource).report(PROXY_ID, DomainUtils.ANY_PROVIDER);
     }
 
     private RequestContext expected() {
         return RequestContext.builder()
                 .duration(DURATION)
                 .proxy(proxy)
+                .request(Request.builder().provider(DomainUtils.ANY_PROVIDER).build())
                 .build();
     }
 }

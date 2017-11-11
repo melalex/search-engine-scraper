@@ -1,13 +1,12 @@
 package com.zephyr.scraper.scheduler.strategy.impl;
 
 import com.zephyr.scraper.domain.RequestContext;
-import com.zephyr.scraper.domain.external.SearchEngine;
+import com.zephyr.scraper.internal.DomainUtils;
 import com.zephyr.scraper.internal.TimeUtils;
 import com.zephyr.scraper.properties.ScraperProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import reactor.test.StepVerifier;
@@ -22,47 +21,52 @@ public class DirectRequestStrategyTest {
     private static final long DELAY = 5000;
     private static final long ERROR_DELAY = 5000;
 
-    private static final SearchEngine FIRST_PROVIDER = SearchEngine.GOOGLE;
-    private static final SearchEngine SECOND_PROVIDER = SearchEngine.BING;
-
     @Mock
     private ScraperProperties properties;
 
     @Mock
     private Clock clock;
 
-    @InjectMocks
     private DirectRequestStrategy testInstance;
 
     @Before
     public void setUp() {
         TimeUtils.configureClock(clock);
 
-        when(properties.getScraper(FIRST_PROVIDER)).thenReturn(createProperties());
+        testInstance = new DirectRequestStrategy();
+        testInstance.setClock(clock);
+        testInstance.setProperties(properties);
+
+        when(properties.getScraper(DomainUtils.ANY_PROVIDER)).thenReturn(createProperties());
     }
 
     @Test
     public void shouldConfigure() {
-        StepVerifier.create(testInstance.configureAndBuild(FIRST_PROVIDER, RequestContext.builder()))
+        StepVerifier.create(testInstance.configureAndBuild(DomainUtils.ANY_PROVIDER, RequestContext.builder()))
                 .expectNext(expected(Duration.ZERO))
                 .verifyComplete();
 
-        StepVerifier.create(testInstance.configureAndBuild(FIRST_PROVIDER, RequestContext.builder()))
-                .expectNext(expected(Duration.ofMinutes(DELAY)))
+        StepVerifier.create(testInstance.configureAndBuild(DomainUtils.ANY_PROVIDER, RequestContext.builder()))
+                .expectNext(expected(Duration.ofMillis(DELAY)))
                 .verifyComplete();
     }
 
     @Test
     public void shouldReport() {
-        StepVerifier.create(testInstance.configureAndBuild(FIRST_PROVIDER, RequestContext.builder()))
-                .expectNext(expected(Duration.ofMinutes(DELAY + ERROR_DELAY)))
+        StepVerifier.create(testInstance.configureAndBuild(DomainUtils.ANY_PROVIDER, RequestContext.builder()))
+                .expectNext(expected(Duration.ZERO))
+                .verifyComplete();
+
+        testInstance.report(DomainUtils.requestContextWithEngine(DomainUtils.ANY_PROVIDER));
+
+        StepVerifier.create(testInstance.configureAndBuild(DomainUtils.ANY_PROVIDER, RequestContext.builder()))
+                .expectNext(expected(Duration.ofMillis(DELAY + ERROR_DELAY)))
                 .verifyComplete();
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void shouldNotReport() {
-        StepVerifier.create(testInstance.configureAndBuild(SECOND_PROVIDER, RequestContext.builder()))
-                .verifyError(IllegalArgumentException.class);
+        testInstance.report(DomainUtils.requestContextWithEngine(DomainUtils.ANY_PROVIDER));
     }
 
     private RequestContext expected(Duration duration) {

@@ -20,15 +20,15 @@ public final class PaginationConstants {
     public static final int LAST_PAGE_SIZE = 10;
     public static final int ROW_COUNT = 90;
 
-    public static final Page FIRST_PAGE = Page.of(FIRST_ROW, FIRST_PAGE_NUMBER, PAGE_SIZE, ROW_COUNT);
-    public static final Page FIRST_ZERO_BASED_PAGE = Page.of(ZERO_BASED_FIRST_ROW, FIRST_PAGE_NUMBER, PAGE_SIZE, ROW_COUNT);
+    public static final Page FIRST_PAGE = Page.of(FIRST_PAGE_NUMBER, FIRST_ROW, PAGE_SIZE, ROW_COUNT);
+    public static final Page FIRST_ZERO_BASED_PAGE = Page.of(FIRST_PAGE_NUMBER, ZERO_BASED_FIRST_ROW, PAGE_SIZE, ROW_COUNT);
 
-    public static final Page SECOND_PAGE = Page.of(FIRST_ROW, SECOND_PAGE_NUMBER, PAGE_SIZE, ROW_COUNT);
-    public static final Page THIRD_PAGE = Page.of(FIRST_ROW, THIRD_PAGE_NUMBER, PAGE_SIZE, ROW_COUNT);
-    public static final Page FORTH_PAGE = Page.of(FIRST_ROW, FORTH_PAGE_NUMBER, PAGE_SIZE, ROW_COUNT);
+    public static final Page SECOND_PAGE = Page.of(SECOND_PAGE_NUMBER, FIRST_ROW, PAGE_SIZE, ROW_COUNT);
+    public static final Page THIRD_PAGE = Page.of(THIRD_PAGE_NUMBER, FIRST_ROW, PAGE_SIZE, ROW_COUNT);
+    public static final Page FORTH_PAGE = Page.of(FORTH_PAGE_NUMBER, FIRST_ROW, PAGE_SIZE, ROW_COUNT);
 
-    public static final Page LAST_PAGE = Page.of(FIRST_ROW, LAST_PAGE_NUMBER, LAST_PAGE_SIZE, ROW_COUNT);
-    public static final Page LAST_ZERO_BASED_PAGE = Page.of(ZERO_BASED_FIRST_ROW, LAST_PAGE_NUMBER, LAST_PAGE_SIZE, ROW_COUNT);
+    public static final Page LAST_PAGE = Page.of(LAST_PAGE_NUMBER, FIRST_ROW, PAGE_SIZE, ROW_COUNT);
+    public static final Page LAST_ZERO_BASED_PAGE = Page.of(LAST_PAGE_NUMBER, ZERO_BASED_FIRST_ROW, PAGE_SIZE, ROW_COUNT);
 
     private PaginationConstants() {
 

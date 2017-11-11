@@ -15,6 +15,7 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -36,9 +37,9 @@ public class SchedulerImplTest {
 
     @Before
     public void setUp() {
-        when(directRequestStrategy.configureAndBuild(DomainUtils.ANY_PROVIDER, any()))
+        when(directRequestStrategy.configureAndBuild(eq(DomainUtils.ANY_PROVIDER), any()))
                 .thenReturn(context());
-        when(proxyRequestStrategy.configureAndBuild(DomainUtils.ANY_PROVIDER, any()))
+        when(proxyRequestStrategy.configureAndBuild(eq(DomainUtils.ANY_PROVIDER), any()))
                 .thenReturn(context());
 
         request = DomainUtils.requestWith(DomainUtils.ANY_PROVIDER);
@@ -50,7 +51,7 @@ public class SchedulerImplTest {
 
         test();
 
-        verify(directRequestStrategy).configureAndBuild(DomainUtils.ANY_PROVIDER, any());
+        verify(directRequestStrategy).configureAndBuild(eq(DomainUtils.ANY_PROVIDER), any());
     }
 
     @Test
@@ -59,7 +60,7 @@ public class SchedulerImplTest {
 
         test();
 
-        verify(proxyRequestStrategy).configureAndBuild(DomainUtils.ANY_PROVIDER, any());
+        verify(proxyRequestStrategy).configureAndBuild(eq(DomainUtils.ANY_PROVIDER), any());
     }
 
     @Test
@@ -68,7 +69,7 @@ public class SchedulerImplTest {
 
         test();
 
-        verify(directRequestStrategy).configureAndBuild(DomainUtils.ANY_PROVIDER, any());
+        verify(directRequestStrategy).configureAndBuild(eq(DomainUtils.ANY_PROVIDER), any());
     }
 
     @Test
@@ -77,7 +78,7 @@ public class SchedulerImplTest {
 
         test();
 
-        verify(proxyRequestStrategy).configureAndBuild(DomainUtils.ANY_PROVIDER, any());
+        verify(proxyRequestStrategy).configureAndBuild(eq(DomainUtils.ANY_PROVIDER), any());
     }
 
     private void test() {

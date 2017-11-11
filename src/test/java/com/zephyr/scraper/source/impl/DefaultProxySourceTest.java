@@ -13,7 +13,7 @@ public class DefaultProxySourceTest {
         testInstance.reserve(DomainUtils.ANY_PROVIDER);
     }
 
-    @Test
+    @Test(expected = UnsupportedOperationException.class)
     public void shouldThrowUnsupportedOperationExceptionWhenReport() {
         testInstance.report(PROXY_ID, DomainUtils.ANY_PROVIDER);
     }

@@ -99,7 +99,7 @@ public class AbstractQueryProviderTest {
                 createRequest(SECOND_PAGE_PARAMS),
                 createRequest(THIRD_PAGE_PARAMS),
                 createRequest(FOURTH_PAGE_PARAMS),
-                createRequest(FIRST_PAGE_PARAMS)
+                createRequest(FIFTH_PAGE_PARAMS)
         );
     }
 

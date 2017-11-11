@@ -22,7 +22,7 @@ public class BingQueryProviderTest {
 
     private static final String LANGUAGE = "en";
     private static final String QUERY_VALUE = "query value";
-    private static final String QUERY_WITH_LANGUAGE_VALUE = "query value language:" + LANGUAGE;
+    private static final String QUERY_WITH_LANGUAGE_VALUE = QUERY_VALUE + " language:" + LANGUAGE;
 
     private QueryContext context;
 
@@ -66,8 +66,7 @@ public class BingQueryProviderTest {
 
     @Test
     public void shouldProvideParamsForFirstPageWithLanguage() {
-        when(context.getWord()).thenReturn(QUERY_WITH_LANGUAGE_VALUE);
-        when(context.getLanguageIso()).thenReturn(LANGUAGE);
+        context = QueryContext.of(DomainUtils.keywordWith(QUERY_VALUE, LANGUAGE), DomainUtils.ANY_PLACE);
 
         Map<String, Object> expected = ImmutableMap.<String, Object>builder()
                 .put(QUERY, QUERY_WITH_LANGUAGE_VALUE)

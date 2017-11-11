@@ -37,7 +37,7 @@ public abstract class AbstractQueryProvider implements QueryProvider {
     }
 
     private Spliterator<Page> pageIterator() {
-        return PageIterator.of(Page.of(first(), FIRST, pageSize(), resultCount())).asSplitIterator();
+        return PageIterator.of(Page.of(FIRST, first(), pageSize(), resultCount())).asSplitIterator();
     }
 
     private Request getPage(QueryContext context, Page page) {

@@ -76,9 +76,6 @@ public class ScrapingFlowImplTest {
         context = createRequestContext();
         links = createLinks();
 
-        when(request.getProvider()).thenReturn(DomainUtils.ANY_PROVIDER);
-        when(request.getOffset()).thenReturn(OFFSET);
-        when(request.getKeyword()).thenReturn(DomainUtils.ANY_KEYWORD);
         when(queryConstructor.construct(DomainUtils.ANY_KEYWORD)).thenReturn(Flux.just(request));
 
         when(scheduler.createContext(request)).thenReturn(Mono.just(context));
@@ -92,6 +89,7 @@ public class ScrapingFlowImplTest {
     @Test
     public void shouldHandle() {
         StepVerifier.withVirtualTime(() -> testInstance.handle(Flux.just(DomainUtils.ANY_KEYWORD)))
+                .expectSubscription()
                 .expectNoEvent(DURATION)
                 .expectNext(expected())
                 .verifyComplete();
@@ -104,6 +102,7 @@ public class ScrapingFlowImplTest {
                 .thenReturn(response());
 
         StepVerifier.withVirtualTime(() -> testInstance.handle(Flux.just(DomainUtils.ANY_KEYWORD)))
+                .expectSubscription()
                 .expectNoEvent(DURATION)
                 .expectNoEvent(BACKOFF_DURATION)
                 .expectNext(expected())
@@ -119,6 +118,7 @@ public class ScrapingFlowImplTest {
                 .thenReturn(response());
 
         StepVerifier.withVirtualTime(() -> testInstance.handle(Flux.just(DomainUtils.ANY_KEYWORD)))
+                .expectSubscription()
                 .expectNoEvent(DURATION)
                 .expectNoEvent(BACKOFF_DURATION)
                 .expectNoEvent(BACKOFF_DURATION)

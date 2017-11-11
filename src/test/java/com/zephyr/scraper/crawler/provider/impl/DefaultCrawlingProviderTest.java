@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -49,21 +50,21 @@ public class DefaultCrawlingProviderTest {
     public void shouldCrawlGoogle() {
         assertEquals(expectedGoogle(), testInstance.provide(CrawlingUtils.toResponse(GOOGLE_RESPONSE, SearchEngine.GOOGLE)));
 
-        verify(fraudAnalyzer).analyze(SearchEngine.GOOGLE, any());
+        verify(fraudAnalyzer).analyze(eq(SearchEngine.GOOGLE), any());
     }
 
     @Test
     public void shouldCrawlBing() {
         assertEquals(expectedBing(), testInstance.provide(CrawlingUtils.toResponse(BING_RESPONSE, SearchEngine.BING)));
 
-        verify(fraudAnalyzer).analyze(SearchEngine.BING, any());
+        verify(fraudAnalyzer).analyze(eq(SearchEngine.BING), any());
     }
 
     @Test
     public void shouldCrawlYahoo() {
         assertEquals(expectedYahoo(), testInstance.provide(CrawlingUtils.toResponse(YAHOO_RESPONSE, SearchEngine.YAHOO)));
 
-        verify(fraudAnalyzer).analyze(SearchEngine.YAHOO, any());
+        verify(fraudAnalyzer).analyze(eq(SearchEngine.YAHOO), any());
     }
 
     private ScraperProperties.EngineProperties engineProperties(String linkSelector) {

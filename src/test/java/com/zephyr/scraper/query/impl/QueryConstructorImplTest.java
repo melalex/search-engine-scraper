@@ -3,6 +3,7 @@ package com.zephyr.scraper.query.impl;
 import com.google.common.collect.ImmutableList;
 import com.zephyr.scraper.domain.QueryContext;
 import com.zephyr.scraper.domain.Request;
+import com.zephyr.scraper.domain.external.Keyword;
 import com.zephyr.scraper.internal.DomainUtils;
 import com.zephyr.scraper.query.provider.QueryProvider;
 import com.zephyr.scraper.source.LocationSource;
@@ -25,6 +26,10 @@ public class QueryConstructorImplTest {
     private static final String FIRST_URL = "FIRST_URL";
     private static final String SECOND_URL = "SECOND_URL";
 
+    private Keyword keyword;
+    private Request firstRequest;
+    private Request secondRequest;
+
     @Mock
     private QueryProvider firstProvider;
 
@@ -37,31 +42,42 @@ public class QueryConstructorImplTest {
     @InjectMocks
     private QueryConstructorImpl testInstance;
 
-    private final Request firstRequest = Request.builder()
-            .keyword(DomainUtils.ANY_KEYWORD)
-            .baseUrl(FIRST_URL)
-            .build();
-
-    private final Request secondRequest = Request.builder()
-            .keyword(DomainUtils.ANY_KEYWORD)
-            .baseUrl(SECOND_URL)
-            .build();
-
     @Before
     public void setUp() {
         testInstance.setProviders(ImmutableList.of(firstProvider, secondProvider));
 
+        keyword = createKeyword();
+
+        firstRequest = Request.builder()
+                .keyword(keyword)
+                .baseUrl(FIRST_URL)
+                .build();
+
+        secondRequest = Request.builder()
+                .keyword(keyword)
+                .baseUrl(SECOND_URL)
+                .build();
+
         when(locationSource.findPlace(COUNTRY_ISO, PLACE_NAME))
                 .thenReturn(Mono.just(DomainUtils.ANY_PLACE));
-        when(firstProvider.provide(QueryContext.of(DomainUtils.ANY_KEYWORD, DomainUtils.ANY_PLACE)))
+        when(firstProvider.provide(QueryContext.of(keyword, DomainUtils.ANY_PLACE)))
                 .thenReturn(ImmutableList.of(firstRequest));
-        when(secondProvider.provide(QueryContext.of(DomainUtils.ANY_KEYWORD, DomainUtils.ANY_PLACE)))
+        when(secondProvider.provide(QueryContext.of(keyword, DomainUtils.ANY_PLACE)))
                 .thenReturn(ImmutableList.of(secondRequest));
     }
 
     @Test
     public void shouldConstruct() {
-        StepVerifier.create(testInstance.construct(DomainUtils.ANY_KEYWORD))
-                .expectNext(firstRequest, secondRequest);
+        StepVerifier.create(testInstance.construct(keyword))
+                .expectNext(firstRequest, secondRequest)
+                .verifyComplete();
+    }
+
+    private Keyword createKeyword() {
+        Keyword keyword = new Keyword();
+        keyword.setPlace(PLACE_NAME);
+        keyword.setCountryIso(COUNTRY_ISO);
+
+        return keyword;
     }
 }

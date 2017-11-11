@@ -53,8 +53,13 @@ public final class DomainUtils {
     }
 
     public static Keyword keywordWith(String word) {
+        return keywordWith(word, null);
+    }
+
+    public static Keyword keywordWith(String word, String language) {
         Keyword keyword = new Keyword();
         keyword.setWord(word);
+        keyword.setLanguageIso(language);
 
         return keyword;
     }

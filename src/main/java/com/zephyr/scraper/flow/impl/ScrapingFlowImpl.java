@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.retry.Retry;
+import reactor.retry.RetryContext;
 
 import java.time.Clock;
 import java.time.Duration;
@@ -65,7 +66,7 @@ public class ScrapingFlowImpl implements ScrapingFlow {
 
     private Mono<SearchResult> makeRequest(RequestContext context) {
         return Mono.delay(context.getDuration())
-                .then(browser.get(context).retryWhen(browserException(context)))
+                .then(Mono.defer(() -> browser.get(context)).retryWhen(browserException(context)))
                 .map(r -> crawler.crawl(context.getProvider(), r))
                 .map(l -> toSearchResult(context, l))
                 .onErrorMap(t -> new RequestException(t, context));
@@ -91,13 +92,14 @@ public class ScrapingFlowImpl implements ScrapingFlow {
 
     private Function<Flux<Throwable>, ? extends Publisher<?>> requestException() {
         return Retry.any()
-                .doOnRetry(c -> report(c.exception()))
-                .doOnRetry(c -> log.info("Request failed with exception {} on {} try", c.exception(), c.iteration()));
+                .doOnRetry(this::onRequestException);
     }
 
-    private void report(Throwable exception) {
-        if (exception instanceof RequestException) {
-            scheduler.report(((RequestException) exception).getFailedContext());
+    private void onRequestException(RetryContext<Object> context) {
+        log.info("Request failed with exception {} on {} try", context.exception(), context.iteration());
+
+        if (context.exception() instanceof RequestException) {
+            scheduler.report(((RequestException) context.exception()).getFailedContext());
         }
     }
 }

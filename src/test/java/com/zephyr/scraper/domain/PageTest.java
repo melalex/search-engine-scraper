@@ -52,13 +52,13 @@ public class PageTest {
     @Test
     public void shouldReturnFalseForFirst() {
         assertFalse(FIRST_PAGE.isNotFirst());
-        assertFalse(FIRST_ZERO_BASED_PAGE.isFirst());
+        assertFalse(FIRST_ZERO_BASED_PAGE.isNotFirst());
     }
 
     @Test
     public void shouldReturnTrueForNotFirst() {
         assertTrue(LAST_PAGE.isNotFirst());
-        assertTrue(LAST_ZERO_BASED_PAGE.isFirst());
+        assertTrue(LAST_ZERO_BASED_PAGE.isNotFirst());
     }
 
     @Test
@@ -75,13 +75,13 @@ public class PageTest {
 
     @Test
     public void shouldReturnFalseForLast() {
-        assertFalse(LAST_PAGE.isNotFirst());
+        assertFalse(LAST_PAGE.isNotLast());
         assertFalse(LAST_ZERO_BASED_PAGE.isNotLast());
     }
 
     @Test
     public void shouldReturnTrueForNotLast() {
-        assertTrue(FIRST_PAGE.isNotFirst());
+        assertTrue(FIRST_PAGE.isNotLast());
         assertTrue(FIRST_ZERO_BASED_PAGE.isNotLast());
     }
 }

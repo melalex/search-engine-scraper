@@ -46,6 +46,6 @@ public class MapUtilsTest {
 
     @Test
     public void shouldNotPutIfNull() {
-        assertFalse(MapUtils.builder().putIfNotNull(FIRST_KEY, FIRST_VALUE).build().containsKey(FIRST_KEY));
+        assertFalse(MapUtils.builder().putIfNotNull(FIRST_KEY, null).build().containsKey(FIRST_KEY));
     }
 }
