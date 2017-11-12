@@ -19,7 +19,7 @@ scraper:
     first: 0
     resultCount: 100
     pageSize: 100
-    useProxy: true
+    useProxy: false
 
   bing:
     enabled: true
@@ -29,7 +29,7 @@ scraper:
     first: 1
     resultCount: 100
     pageSize: 10
-    useProxy: true
+    useProxy: false
 
   yahoo:
     enabled: true
@@ -39,7 +39,7 @@ scraper:
     first: 1
     resultCount: 100
     pageSize: 100
-    useProxy: true
+    useProxy: false
 
   yandex:
     enabled: false
@@ -49,7 +49,7 @@ scraper:
     first: 0
     resultCount: 100
     pageSize: 100
-    useProxy: true
+    useProxy: false
 
   duckduckgo:
     enabled: false
@@ -59,4 +59,4 @@ scraper:
     first: 0
     resultCount: 100
     pageSize: 100
-    useProxy: true
+    useProxy: false
