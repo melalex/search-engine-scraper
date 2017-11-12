@@ -5,7 +5,7 @@ import com.zephyr.scraper.domain.QueryContext;
 import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.external.SearchEngine;
 import com.zephyr.scraper.domain.support.PageIterator;
-import com.zephyr.scraper.properties.ScraperProperties;
+import com.zephyr.scraper.domain.properties.ScraperProperties;
 import com.zephyr.scraper.query.provider.QueryProvider;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

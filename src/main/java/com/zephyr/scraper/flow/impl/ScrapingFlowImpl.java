@@ -9,7 +9,7 @@ import com.zephyr.scraper.domain.exceptions.RequestException;
 import com.zephyr.scraper.domain.external.Keyword;
 import com.zephyr.scraper.domain.external.SearchResult;
 import com.zephyr.scraper.flow.ScrapingFlow;
-import com.zephyr.scraper.properties.ScraperProperties;
+import com.zephyr.scraper.domain.properties.ScraperProperties;
 import com.zephyr.scraper.query.QueryConstructor;
 import com.zephyr.scraper.scheduler.Scheduler;
 import lombok.Setter;

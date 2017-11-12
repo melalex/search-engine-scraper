@@ -10,7 +10,7 @@ import com.zephyr.scraper.domain.exceptions.BrowserException;
 import com.zephyr.scraper.domain.external.SearchResult;
 import com.zephyr.scraper.internal.DomainUtils;
 import com.zephyr.scraper.internal.TimeUtils;
-import com.zephyr.scraper.properties.ScraperProperties;
+import com.zephyr.scraper.domain.properties.ScraperProperties;
 import com.zephyr.scraper.query.QueryConstructor;
 import com.zephyr.scraper.scheduler.Scheduler;
 import org.junit.Before;
@@ -112,6 +112,7 @@ public class ScrapingFlowImplTest {
     @Test
     public void shouldRetryWithNewContext() {
         when(browser.get(context))
+                .thenReturn(failedResponse())
                 .thenReturn(failedResponse())
                 .thenReturn(failedResponse())
                 .thenReturn(failedResponse())

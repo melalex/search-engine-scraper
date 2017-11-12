@@ -7,7 +7,7 @@ import com.zephyr.scraper.domain.QueryContext;
 import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.external.Keyword;
 import com.zephyr.scraper.internal.DomainUtils;
-import com.zephyr.scraper.properties.ScraperProperties;
+import com.zephyr.scraper.domain.properties.ScraperProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

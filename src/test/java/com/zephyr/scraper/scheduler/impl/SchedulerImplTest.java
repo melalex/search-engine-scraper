@@ -3,7 +3,7 @@ package com.zephyr.scraper.scheduler.impl;
 import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.RequestContext;
 import com.zephyr.scraper.internal.DomainUtils;
-import com.zephyr.scraper.properties.ScraperProperties;
+import com.zephyr.scraper.domain.properties.ScraperProperties;
 import com.zephyr.scraper.scheduler.strategy.RequestStrategy;
 import org.junit.Before;
 import org.junit.Test;

@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.zephyr.scraper.crawler.fraud.FraudAnalyzer;
 import com.zephyr.scraper.domain.external.SearchEngine;
 import com.zephyr.scraper.internal.CrawlingUtils;
-import com.zephyr.scraper.properties.ScraperProperties;
+import com.zephyr.scraper.domain.properties.ScraperProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

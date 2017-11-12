@@ -1,4 +1,4 @@
-package com.zephyr.scraper.properties;
+package com.zephyr.scraper.domain.properties;
 
 import com.zephyr.scraper.domain.external.SearchEngine;
 import lombok.Data;
