@@ -52,7 +52,8 @@ public class ScrapingFlowImpl implements ScrapingFlow {
 
     @Override
     public Flux<SearchResult> handle(Flux<Keyword> input) {
-        return input.flatMap(queryConstructor::construct)
+        return input.doOnNext(k -> log.info("Received new Keyword: {}", k))
+                .flatMap(queryConstructor::construct)
                 .parallel()
                 .flatMap(this::browse)
                 .sequential();

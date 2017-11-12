@@ -8,7 +8,7 @@ logging:
 
 browser:
   backoff: 5000
-  retryCount: 3
+  retryCount: 2
 
 scraper:
   google:
@@ -27,7 +27,7 @@ scraper:
     errorDelay: 480000
     linkSelector: "#b_results > li > h2 > a"
     first: 1
-    resultCount: 100
+    resultCount: 10
     pageSize: 10
     useProxy: false
 
@@ -37,8 +37,8 @@ scraper:
     errorDelay: 480000
     linkSelector: "#web > ol > li > div > div > h3 > a"
     first: 1
-    resultCount: 100
-    pageSize: 100
+    resultCount: 10
+    pageSize: 10
     useProxy: false
 
   yandex:

@@ -21,7 +21,7 @@ public class Page {
     }
 
     public int getLastPage() {
-        return (int) Math.ceil(count / pageSize);
+        return (int) Math.ceil(count * 1.0 / pageSize) - 1;
     }
 
     public boolean isFirst() {

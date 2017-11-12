@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class YahooQueryProviderTest {
-    private static final String URL = "search.yahoo.com";
+    private static final String URL = "https://search.yahoo.com";
     private static final String URI = "/search";
     private static final String QUERY = "p";
     private static final String ENCODING = "ei";

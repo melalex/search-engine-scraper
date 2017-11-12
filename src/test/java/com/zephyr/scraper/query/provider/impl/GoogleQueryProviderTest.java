@@ -34,8 +34,8 @@ public class GoogleQueryProviderTest {
     private static final String NUMBER = "num";
 
     private static final String QUERY_VALUE = "query value";
-    private static final String DEFAULT_LOCAL_GOOGLE = "www.google.com";
-    private static final String LOCAL_GOOGLE = "www.google.com.af";
+    private static final String DEFAULT_LOCAL_GOOGLE = "https://www.google.com";
+    private static final String LOCAL_GOOGLE = "https://www.google.com.af";
     private static final String UULE = "UULE";
     private static final String LANGUAGE_ISO = "en";
     private static final long PARENT_LOCATION = 1488;

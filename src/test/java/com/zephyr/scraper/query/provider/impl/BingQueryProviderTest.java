@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 public class BingQueryProviderTest {
-    private static final String URL = "www.bing.com";
+    private static final String URL = "https://www.bing.com";
     private static final String URI = "/search";
     private static final String QUERY = "q";
     private static final String FIRST = "first";

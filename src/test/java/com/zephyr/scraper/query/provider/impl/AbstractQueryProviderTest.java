@@ -6,8 +6,9 @@ import com.zephyr.scraper.domain.Page;
 import com.zephyr.scraper.domain.QueryContext;
 import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.external.Keyword;
-import com.zephyr.scraper.internal.DomainUtils;
 import com.zephyr.scraper.domain.properties.ScraperProperties;
+import com.zephyr.scraper.internal.DomainUtils;
+import com.zephyr.scraper.internal.PaginationConstants;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -95,21 +96,22 @@ public class AbstractQueryProviderTest {
 
     private List<Request> expected() {
         return ImmutableList.of(
-                createRequest(FIRST_PAGE_PARAMS),
-                createRequest(SECOND_PAGE_PARAMS),
-                createRequest(THIRD_PAGE_PARAMS),
-                createRequest(FOURTH_PAGE_PARAMS),
-                createRequest(FIFTH_PAGE_PARAMS)
+                createRequest(FIRST_PAGE_PARAMS, PaginationConstants.FIRST_PAGE.getStart()),
+                createRequest(SECOND_PAGE_PARAMS, PaginationConstants.SECOND_PAGE.getStart()),
+                createRequest(THIRD_PAGE_PARAMS, PaginationConstants.THIRD_PAGE.getStart()),
+                createRequest(FOURTH_PAGE_PARAMS, PaginationConstants.FORTH_PAGE.getStart()),
+                createRequest(FIFTH_PAGE_PARAMS, PaginationConstants.LAST_PAGE.getStart())
         );
     }
 
-    private Request createRequest(Map<String, ?> params) {
+    private Request createRequest(Map<String, ?> params, int offset) {
         return Request.builder()
                 .keyword(KEYWORD)
                 .provider(DomainUtils.ANY_PROVIDER)
                 .baseUrl(URL)
                 .uri(ROOT)
                 .params(params)
+                .offset(offset)
                 .build();
     }
 }

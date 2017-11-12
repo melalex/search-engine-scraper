@@ -14,7 +14,7 @@ import java.util.Optional;
 @Component
 @ConditionalOnProperty(name = "scraper.google.enabled", havingValue = "true")
 public class GoogleQueryProvider extends AbstractQueryProvider {
-    private static final String URL = "www.google.com";
+    private static final String URL = "https://www.google.com";
     private static final String URI = "/search";
     private static final String LANGUAGE = "lr";
     private static final String INTERFACE = "hl";

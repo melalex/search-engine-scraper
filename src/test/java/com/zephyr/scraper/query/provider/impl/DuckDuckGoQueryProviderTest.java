@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DuckDuckGoQueryProviderTest {
-    private static final String URL = "duckduckgo.com";
+    private static final String URL = "https://duckduckgo.com";
     private static final String QUERY = "q";
     private static final String SAFE = "kp";
     private static final String NOT_SAFE = "-2";

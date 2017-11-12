@@ -33,6 +33,7 @@ repositories {
 ext {
     guavaVersion = '23.3-jre'
     jsoupVersion = '1.10.3'
+    csvVersion = '1.5'
 }
 
 dependencies {
@@ -44,9 +45,11 @@ dependencies {
     compile group: 'io.projectreactor.ipc', name: 'reactor-netty'
     compile group: 'org.apache.commons', name: 'commons-lang3'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
 
     compile group: 'com.google.guava', name: 'guava', version: guavaVersion
     compile group: 'org.jsoup', name: 'jsoup', version: jsoupVersion
+    compile group: 'org.apache.commons', name: 'commons-csv', version: csvVersion
 
     compileOnly group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
     compileOnly group: 'org.projectlombok', name: 'lombok'

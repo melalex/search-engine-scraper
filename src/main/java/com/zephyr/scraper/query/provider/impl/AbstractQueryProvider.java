@@ -47,6 +47,7 @@ public abstract class AbstractQueryProvider implements QueryProvider {
                 .baseUrl(provideBaseUrl(context))
                 .uri(provideUri())
                 .params(provideParams(context, page))
+                .offset(page.getStart())
                 .build();
     }
 

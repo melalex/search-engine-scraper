@@ -22,8 +22,8 @@ public class YandexQueryProviderTest {
     private static final String START = "b";
     private static final String COUNT = "n";
 
-    private static final String LOCAL_YANDEX = "yandex.ua";
-    private static final String DEFAULT_YANDEX = "yandex.ru";
+    private static final String LOCAL_YANDEX = "https://yandex.ua";
+    private static final String DEFAULT_YANDEX = "https://yandex.ru";
     private static final String QUERY_VALUE = "query value";
 
     private QueryContext context;

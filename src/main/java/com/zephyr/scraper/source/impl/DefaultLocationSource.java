@@ -12,9 +12,9 @@ import javax.annotation.PostConstruct;
 @Component
 public class DefaultLocationSource implements LocationSource {
     private static final String DEFAULT_COUNTRY_ISO = "UA";
-    private static final String DEFAULT_LOCAL_GOOGLE = "www.google.com.ua";
-    private static final String DEFAULT_LOCAL_YANDEX = "www.google.com.ua";
-    private static final String DEFAULT_COUNTRY_NAME = "www.google.com.ua";
+    private static final String DEFAULT_LOCAL_GOOGLE = "https://www.google.com.ua";
+    private static final String DEFAULT_LOCAL_YANDEX = "https://yandex.ua";
+    private static final String DEFAULT_COUNTRY_NAME = "Ukraine";
 
     private static final long DEFAULT_PLACE_ID = 1012852;
     private static final String DEFAULT_PLACE_NAME = "Kiev";
