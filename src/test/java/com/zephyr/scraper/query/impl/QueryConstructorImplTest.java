@@ -1,8 +1,8 @@
 package com.zephyr.scraper.query.impl;
 
 import com.google.common.collect.ImmutableList;
+import com.zephyr.scraper.domain.EngineRequest;
 import com.zephyr.scraper.domain.QueryContext;
-import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.external.Keyword;
 import com.zephyr.scraper.internal.DomainUtils;
 import com.zephyr.scraper.query.provider.QueryProvider;
@@ -27,8 +27,8 @@ public class QueryConstructorImplTest {
     private static final String SECOND_URL = "SECOND_URL";
 
     private Keyword keyword;
-    private Request firstRequest;
-    private Request secondRequest;
+    private EngineRequest firstEngineRequest;
+    private EngineRequest secondEngineRequest;
 
     @Mock
     private QueryProvider firstProvider;
@@ -48,12 +48,12 @@ public class QueryConstructorImplTest {
 
         keyword = createKeyword();
 
-        firstRequest = Request.builder()
+        firstEngineRequest = EngineRequest.builder()
                 .keyword(keyword)
                 .baseUrl(FIRST_URL)
                 .build();
 
-        secondRequest = Request.builder()
+        secondEngineRequest = EngineRequest.builder()
                 .keyword(keyword)
                 .baseUrl(SECOND_URL)
                 .build();
@@ -61,15 +61,15 @@ public class QueryConstructorImplTest {
         when(locationSource.findPlace(COUNTRY_ISO, PLACE_NAME))
                 .thenReturn(Mono.just(DomainUtils.ANY_PLACE));
         when(firstProvider.provide(QueryContext.of(keyword, DomainUtils.ANY_PLACE)))
-                .thenReturn(ImmutableList.of(firstRequest));
+                .thenReturn(ImmutableList.of(firstEngineRequest));
         when(secondProvider.provide(QueryContext.of(keyword, DomainUtils.ANY_PLACE)))
-                .thenReturn(ImmutableList.of(secondRequest));
+                .thenReturn(ImmutableList.of(secondEngineRequest));
     }
 
     @Test
     public void shouldConstruct() {
         StepVerifier.create(testInstance.construct(keyword))
-                .expectNext(firstRequest, secondRequest)
+                .expectNext(firstEngineRequest, secondEngineRequest)
                 .verifyComplete();
     }
 

@@ -1,7 +1,7 @@
 package com.zephyr.scraper.query.impl;
 
+import com.zephyr.scraper.domain.EngineRequest;
 import com.zephyr.scraper.domain.QueryContext;
-import com.zephyr.scraper.domain.Request;
 import com.zephyr.scraper.domain.external.Keyword;
 import com.zephyr.scraper.query.QueryConstructor;
 import com.zephyr.scraper.query.provider.QueryProvider;
@@ -26,7 +26,7 @@ public class QueryConstructorImpl implements QueryConstructor {
     private LocationSource locationSource;
 
     @Override
-    public Flux<Request> construct(Keyword keyword) {
+    public Flux<EngineRequest> construct(Keyword keyword) {
         return Flux.fromIterable(providers)
                 .flatMap(p -> toQueryContext(keyword).map(p::provide))
                 .flatMap(Flux::fromIterable)

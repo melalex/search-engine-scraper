@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zephyr.scraper.domain.external.Keyword;
 import com.zephyr.scraper.domain.external.SearchResult;
 import com.zephyr.scraper.flow.ScrapingFlow;
+import com.zephyr.scraper.saver.FileSaver;
 import lombok.Cleanup;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -17,13 +18,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 
 @Slf4j
 @Component
@@ -33,7 +34,15 @@ public class ScraperRunner implements CommandLineRunner {
     @Setter(onMethod = @__(@Autowired))
     private ScrapingFlow scrapingFlow;
 
+    @Setter(onMethod = @__(@Autowired))
+    private FileSaver fileSaver;
+
     private final ObjectMapper mapper = new ObjectMapper();
+
+    @PostConstruct
+    public void init() throws IOException {
+        Files.createDirectories(Paths.get(DIRECTORY));
+    }
 
     @Override
     public void run(String... args) {
@@ -62,16 +71,10 @@ public class ScraperRunner implements CommandLineRunner {
                 searchResult.getKeyword(), searchResult.getProvider(), searchResult.getOffset());
 
         try {
-            Path path = path(searchResult);
-
-            Files.createDirectories(path.getParent());
-            Files.write(path, mapper.writeValueAsBytes(searchResult), StandardOpenOption.CREATE);
-
-            log.info("Result saved to {}", path.toAbsolutePath());
+            fileSaver.save(path(searchResult), mapper.writeValueAsBytes(searchResult));
         } catch (IOException e) {
-            log.error("Exception while writing to file", e);
+            log.error("Exception while Serializing to json", e);
         }
-
     }
 
     private Path path(SearchResult searchResult) {

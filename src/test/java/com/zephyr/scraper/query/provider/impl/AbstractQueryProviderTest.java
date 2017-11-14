@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.zephyr.scraper.domain.Page;
 import com.zephyr.scraper.domain.QueryContext;
-import com.zephyr.scraper.domain.Request;
+import com.zephyr.scraper.domain.EngineRequest;
 import com.zephyr.scraper.domain.external.Keyword;
 import com.zephyr.scraper.domain.properties.ScraperProperties;
 import com.zephyr.scraper.internal.DomainUtils;
@@ -94,7 +94,7 @@ public class AbstractQueryProviderTest {
         assertEquals(expected(), testInstance.provide(context));
     }
 
-    private List<Request> expected() {
+    private List<EngineRequest> expected() {
         return ImmutableList.of(
                 createRequest(FIRST_PAGE_PARAMS, PaginationConstants.FIRST_PAGE.getStart()),
                 createRequest(SECOND_PAGE_PARAMS, PaginationConstants.SECOND_PAGE.getStart()),
@@ -104,8 +104,8 @@ public class AbstractQueryProviderTest {
         );
     }
 
-    private Request createRequest(Map<String, ?> params, int offset) {
-        return Request.builder()
+    private EngineRequest createRequest(Map<String, ?> params, int offset) {
+        return EngineRequest.builder()
                 .keyword(KEYWORD)
                 .provider(DomainUtils.ANY_PROVIDER)
                 .baseUrl(URL)

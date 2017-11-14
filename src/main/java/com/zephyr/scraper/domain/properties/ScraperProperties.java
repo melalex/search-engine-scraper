@@ -22,6 +22,7 @@ public class ScraperProperties {
     @Data
     public static class EngineProperties {
         private boolean enabled;
+        private boolean saveResponse;
         private boolean useProxy;
         private long delay;
         private long errorDelay;

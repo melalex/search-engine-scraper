@@ -3,9 +3,9 @@ package com.zephyr.scraper.flow.impl;
 import com.google.common.collect.ImmutableList;
 import com.zephyr.scraper.browser.Browser;
 import com.zephyr.scraper.crawler.Crawler;
-import com.zephyr.scraper.domain.Request;
+import com.zephyr.scraper.domain.EngineRequest;
 import com.zephyr.scraper.domain.RequestContext;
-import com.zephyr.scraper.domain.Response;
+import com.zephyr.scraper.domain.EngineResponse;
 import com.zephyr.scraper.domain.exceptions.BrowserException;
 import com.zephyr.scraper.domain.external.SearchResult;
 import com.zephyr.scraper.internal.DomainUtils;
@@ -43,8 +43,8 @@ public class ScrapingFlowImplTest {
 
     private RequestContext context;
     private List<String> links;
-    private Request request;
-    private Response response;
+    private EngineRequest engineRequest;
+    private EngineResponse engineResponse;
 
     @Mock
     private ScraperProperties scraperProperties;
@@ -71,19 +71,19 @@ public class ScrapingFlowImplTest {
     public void setUp() {
         TimeUtils.configureClock(clock);
 
-        request = DomainUtils.requestWith(DomainUtils.ANY_KEYWORD, DomainUtils.ANY_PROVIDER, OFFSET);
-        response = DomainUtils.responseWith(DomainUtils.ANY_PROVIDER);
+        engineRequest = DomainUtils.requestWith(DomainUtils.ANY_KEYWORD, DomainUtils.ANY_PROVIDER, OFFSET);
+        engineResponse = DomainUtils.responseWith(DomainUtils.ANY_PROVIDER);
         context = createRequestContext();
         links = createLinks();
 
-        when(queryConstructor.construct(DomainUtils.ANY_KEYWORD)).thenReturn(Flux.just(request));
+        when(queryConstructor.construct(DomainUtils.ANY_KEYWORD)).thenReturn(Flux.just(engineRequest));
 
-        when(scheduler.createContext(request)).thenReturn(Mono.just(context));
+        when(scheduler.createContext(engineRequest)).thenReturn(Mono.just(context));
         when(scraperProperties.getBrowser()).thenReturn(createBrowserProperties());
 
         when(browser.get(context)).thenReturn(response());
 
-        when(crawler.crawl(DomainUtils.ANY_PROVIDER, response)).thenReturn(links);
+        when(crawler.crawl(DomainUtils.ANY_PROVIDER, engineResponse)).thenReturn(links);
     }
 
     @Test
@@ -128,7 +128,7 @@ public class ScrapingFlowImplTest {
                 .expectNext(expected())
                 .verifyComplete();
 
-        verify(scheduler, times(SCHEDULER_CALLS_COUNT)).createContext(request);
+        verify(scheduler, times(SCHEDULER_CALLS_COUNT)).createContext(engineRequest);
         verify(scheduler).report(context);
     }
 
@@ -145,15 +145,15 @@ public class ScrapingFlowImplTest {
     private RequestContext createRequestContext() {
         return RequestContext.builder()
                 .duration(DURATION)
-                .request(request)
+                .engineRequest(engineRequest)
                 .build();
     }
 
-    private Mono<Response> response() {
-        return Mono.just(response);
+    private Mono<EngineResponse> response() {
+        return Mono.just(engineResponse);
     }
 
-    private Mono<Response> failedResponse() {
+    private Mono<EngineResponse> failedResponse() {
         return Mono.error(new BrowserException("BrowserException"));
     }
 

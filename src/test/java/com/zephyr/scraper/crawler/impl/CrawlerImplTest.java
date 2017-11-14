@@ -3,7 +3,7 @@ package com.zephyr.scraper.crawler.impl;
 import com.google.common.collect.ImmutableList;
 import com.zephyr.scraper.crawler.manager.CrawlingManager;
 import com.zephyr.scraper.crawler.provider.CrawlingProvider;
-import com.zephyr.scraper.domain.Response;
+import com.zephyr.scraper.domain.EngineResponse;
 import com.zephyr.scraper.domain.external.SearchEngine;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class CrawlerImplTest {
     private static final SearchEngine PROVIDER = SearchEngine.GOOGLE;
-    private static final Response DOES_NOT_MATTER = null;
+    private static final EngineResponse DOES_NOT_MATTER = null;
 
     @Mock
     private CrawlingManager crawlingManager;

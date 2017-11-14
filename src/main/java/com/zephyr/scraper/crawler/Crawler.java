@@ -1,6 +1,6 @@
 package com.zephyr.scraper.crawler;
 
-import com.zephyr.scraper.domain.Response;
+import com.zephyr.scraper.domain.EngineResponse;
 import com.zephyr.scraper.domain.external.SearchEngine;
 
 import java.util.List;
@@ -8,5 +8,5 @@ import java.util.List;
 @FunctionalInterface
 public interface Crawler {
 
-    List<String> crawl(SearchEngine engine, Response response);
+    List<String> crawl(SearchEngine engine, EngineResponse engineResponse);
 }

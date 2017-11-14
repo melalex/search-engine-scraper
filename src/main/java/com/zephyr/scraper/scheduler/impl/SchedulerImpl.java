@@ -1,6 +1,6 @@
 package com.zephyr.scraper.scheduler.impl;
 
-import com.zephyr.scraper.domain.Request;
+import com.zephyr.scraper.domain.EngineRequest;
 import com.zephyr.scraper.domain.RequestContext;
 import com.zephyr.scraper.domain.external.SearchEngine;
 import com.zephyr.scraper.domain.properties.ScraperProperties;
@@ -26,9 +26,9 @@ public class SchedulerImpl implements Scheduler {
     private RequestStrategy proxyRequestStrategy;
 
     @Override
-    public Mono<RequestContext> createContext(Request request) {
-        return getRequestStrategy(request.getProvider())
-                .configureAndBuild(request.getProvider(), RequestContext.builder().request(request))
+    public Mono<RequestContext> createContext(EngineRequest engineRequest) {
+        return getRequestStrategy(engineRequest.getProvider())
+                .configureAndBuild(engineRequest.getProvider(), RequestContext.builder().engineRequest(engineRequest))
                 .doOnNext(c -> log.info("New RequestContext: {}", c));
     }
 

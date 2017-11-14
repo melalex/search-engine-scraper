@@ -2,15 +2,16 @@ package com.zephyr.scraper.flow.impl;
 
 import com.zephyr.scraper.browser.Browser;
 import com.zephyr.scraper.crawler.Crawler;
-import com.zephyr.scraper.domain.Request;
+import com.zephyr.scraper.domain.EngineRequest;
 import com.zephyr.scraper.domain.RequestContext;
 import com.zephyr.scraper.domain.exceptions.BrowserException;
 import com.zephyr.scraper.domain.exceptions.RequestException;
 import com.zephyr.scraper.domain.external.Keyword;
 import com.zephyr.scraper.domain.external.SearchResult;
-import com.zephyr.scraper.flow.ScrapingFlow;
 import com.zephyr.scraper.domain.properties.ScraperProperties;
+import com.zephyr.scraper.flow.ScrapingFlow;
 import com.zephyr.scraper.query.QueryConstructor;
+import com.zephyr.scraper.saver.ResponseSaver;
 import com.zephyr.scraper.scheduler.Scheduler;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +49,9 @@ public class ScrapingFlowImpl implements ScrapingFlow {
     private Crawler crawler;
 
     @Setter(onMethod = @__(@Autowired))
+    private ResponseSaver responseSaver;
+
+    @Setter(onMethod = @__(@Autowired))
     private Clock clock;
 
     @Override
@@ -59,8 +63,8 @@ public class ScrapingFlowImpl implements ScrapingFlow {
                 .sequential();
     }
 
-    private Mono<SearchResult> browse(Request request) {
-        return Mono.defer(() -> scheduler.createContext(request))
+    private Mono<SearchResult> browse(EngineRequest engineRequest) {
+        return Mono.defer(() -> scheduler.createContext(engineRequest))
                 .flatMap(this::makeRequest)
                 .retryWhen(requestException());
     }
@@ -68,6 +72,7 @@ public class ScrapingFlowImpl implements ScrapingFlow {
     private Mono<SearchResult> makeRequest(RequestContext context) {
         return Mono.delay(context.getDuration())
                 .then(Mono.defer(() -> browser.get(context)).retryWhen(browserException(context)))
+                .doOnNext(responseSaver::save)
                 .map(r -> crawler.crawl(context.getProvider(), r))
                 .map(l -> toSearchResult(context, l))
                 .onErrorMap(t -> new RequestException(t, context));
@@ -87,7 +92,7 @@ public class ScrapingFlowImpl implements ScrapingFlow {
         return Retry.<RequestContext>anyOf(BrowserException.class)
                 .withApplicationContext(context)
                 .retryMax(scraperProperties.getBrowser().getRetryCount())
-                .doOnRetry(c -> log.info("Browser throw exception {} on {} try", c.exception(), c.iteration()))
+                .doOnRetry(c -> log.error(String.format("Browser throw exception on %s try", c.iteration()), c.exception()))
                 .fixedBackoff(Duration.ofMillis(scraperProperties.getBrowser().getBackoff()));
     }
 
@@ -97,7 +102,7 @@ public class ScrapingFlowImpl implements ScrapingFlow {
     }
 
     private void onRequestException(RetryContext<Object> context) {
-        log.info("Request failed with exception {} on {} try", context.exception(), context.iteration());
+        log.error(String.format("Request failed with exception on %s try", context.iteration()), context.exception());
 
         if (context.exception() instanceof RequestException) {
             scheduler.report(((RequestException) context.exception()).getFailedContext());

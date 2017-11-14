@@ -1,6 +1,6 @@
 package com.zephyr.scraper.scheduler.strategy.impl;
 
-import com.zephyr.scraper.domain.Request;
+import com.zephyr.scraper.domain.EngineRequest;
 import com.zephyr.scraper.domain.RequestContext;
 import com.zephyr.scraper.domain.external.Proxy;
 import com.zephyr.scraper.internal.DomainUtils;
@@ -59,7 +59,7 @@ public class ProxyRequestStrategyTest {
     @Test
     public void shouldConfigure() {
         RequestContext.RequestContextBuilder builder = RequestContext.builder()
-                .request(Request.builder().provider(DomainUtils.ANY_PROVIDER).build());
+                .engineRequest(EngineRequest.builder().provider(DomainUtils.ANY_PROVIDER).build());
 
         StepVerifier.create(testInstance.configureAndBuild(DomainUtils.ANY_PROVIDER, builder))
                 .expectNext(expected())
@@ -77,7 +77,7 @@ public class ProxyRequestStrategyTest {
         return RequestContext.builder()
                 .duration(DURATION)
                 .proxy(proxy)
-                .request(Request.builder().provider(DomainUtils.ANY_PROVIDER).build())
+                .engineRequest(EngineRequest.builder().provider(DomainUtils.ANY_PROVIDER).build())
                 .build();
     }
 }

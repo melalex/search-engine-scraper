@@ -13,6 +13,7 @@ browser:
 scraper:
   google:
     enabled: true
+    saveResponse: true
     delay: 480000
     errorDelay: 480000
     linkSelector: "#rso > div > div > div > div > div > h3 > a"
@@ -23,6 +24,7 @@ scraper:
 
   bing:
     enabled: true
+    saveResponse: true
     delay: 480000
     errorDelay: 480000
     linkSelector: "#b_results > li > h2 > a"
@@ -33,6 +35,7 @@ scraper:
 
   yahoo:
     enabled: true
+    saveResponse: true
     delay: 480000
     errorDelay: 480000
     linkSelector: "#web > ol > li > div > div > h3 > a"
@@ -43,6 +46,7 @@ scraper:
 
   yandex:
     enabled: false
+    saveResponse: false
     delay: 480000
     errorDelay: 480000
     linkSelector:
@@ -53,6 +57,7 @@ scraper:
 
   duckduckgo:
     enabled: false
+    saveResponse: false
     delay: 480000
     errorDelay: 480000
     linkSelector:

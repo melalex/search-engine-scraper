@@ -2,7 +2,7 @@ package com.zephyr.scraper.crawler.provider.impl;
 
 import com.zephyr.scraper.crawler.fraud.FraudAnalyzer;
 import com.zephyr.scraper.crawler.provider.CrawlingProvider;
-import com.zephyr.scraper.domain.Response;
+import com.zephyr.scraper.domain.EngineResponse;
 import com.zephyr.scraper.domain.external.SearchEngine;
 import com.zephyr.scraper.domain.properties.ScraperProperties;
 import lombok.Setter;
@@ -25,9 +25,9 @@ public class DefaultCrawlingProvider implements CrawlingProvider {
     private FraudAnalyzer fraudAnalyzer;
 
     @Override
-    public List<String> provide(Response response) {
-        SearchEngine engine = response.getProvider();
-        Document document = Jsoup.parse(response.getBody());
+    public List<String> provide(EngineResponse engineResponse) {
+        SearchEngine engine = engineResponse.getProvider();
+        Document document = Jsoup.parse(engineResponse.getBody());
         String linkSelector = scraperProperties
                 .getScraper(engine)
                 .getLinkSelector();

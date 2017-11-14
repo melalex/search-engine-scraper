@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Value
 @Builder
-public class Request {
+public class EngineRequest {
     private Keyword keyword;
 
     private SearchEngine provider;
@@ -25,5 +25,9 @@ public class Request {
 
     public String getLanguageIso() {
         return keyword.getLanguageIso();
+    }
+
+    public String getFullUrl() {
+        return baseUrl + uri;
     }
 }

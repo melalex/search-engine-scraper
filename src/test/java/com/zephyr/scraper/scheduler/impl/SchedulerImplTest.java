@@ -1,6 +1,6 @@
 package com.zephyr.scraper.scheduler.impl;
 
-import com.zephyr.scraper.domain.Request;
+import com.zephyr.scraper.domain.EngineRequest;
 import com.zephyr.scraper.domain.RequestContext;
 import com.zephyr.scraper.internal.DomainUtils;
 import com.zephyr.scraper.domain.properties.ScraperProperties;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SchedulerImplTest {
-    private Request request;
+    private EngineRequest engineRequest;
 
     @Mock
     private ScraperProperties scraperProperties;
@@ -42,7 +42,7 @@ public class SchedulerImplTest {
         when(proxyRequestStrategy.configureAndBuild(eq(DomainUtils.ANY_PROVIDER), any()))
                 .thenReturn(context());
 
-        request = DomainUtils.requestWith(DomainUtils.ANY_PROVIDER);
+        engineRequest = DomainUtils.requestWith(DomainUtils.ANY_PROVIDER);
     }
 
     @Test
@@ -82,7 +82,7 @@ public class SchedulerImplTest {
     }
 
     private void test() {
-        StepVerifier.create(testInstance.createContext(request))
+        StepVerifier.create(testInstance.createContext(engineRequest))
                 .expectNext(DomainUtils.ANY_REQUEST_CONTEXT)
                 .verifyComplete();
     }

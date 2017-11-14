@@ -1,8 +1,8 @@
 package com.zephyr.scraper.internal;
 
-import com.zephyr.scraper.domain.Request;
+import com.zephyr.scraper.domain.EngineRequest;
 import com.zephyr.scraper.domain.RequestContext;
-import com.zephyr.scraper.domain.Response;
+import com.zephyr.scraper.domain.EngineResponse;
 import com.zephyr.scraper.domain.external.CountryDto;
 import com.zephyr.scraper.domain.external.Keyword;
 import com.zephyr.scraper.domain.external.PlaceDto;
@@ -26,30 +26,30 @@ public final class DomainUtils {
 
     public static RequestContext requestContextWith(String baseUrl) {
         return RequestContext.builder()
-                .request(Request.builder().baseUrl(baseUrl).build())
+                .engineRequest(EngineRequest.builder().baseUrl(baseUrl).build())
                 .build();
     }
 
     public static RequestContext requestContextWithEngine(SearchEngine engine) {
         return RequestContext.builder()
-                .request(Request.builder().provider(engine).build())
+                .engineRequest(EngineRequest.builder().provider(engine).build())
                 .build();
     }
 
-    public static Request requestWith(SearchEngine engine) {
+    public static EngineRequest requestWith(SearchEngine engine) {
         return requestWith(ANY_KEYWORD, engine, 0);
     }
 
-    public static Request requestWith(Keyword keyword, SearchEngine engine, int offset) {
-        return Request.builder()
+    public static EngineRequest requestWith(Keyword keyword, SearchEngine engine, int offset) {
+        return EngineRequest.builder()
                 .keyword(keyword)
                 .provider(engine)
                 .offset(offset)
                 .build();
     }
 
-    public static Response responseWith(SearchEngine engine) {
-        return Response.of(Collections.emptyMap(), RESPONSE_BODY, engine);
+    public static EngineResponse responseWith(SearchEngine engine) {
+        return EngineResponse.of(Collections.emptyMap(), RESPONSE_BODY, engine);
     }
 
     public static Keyword keywordWith(String word) {

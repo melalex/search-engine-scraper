@@ -8,5 +8,5 @@ import java.util.Map;
 @FunctionalInterface
 public interface HeadersManagerComposer {
 
-    void compose(Map<String, List<String>> headers, RequestContext context);
+    Map<String, List<String>> compose(RequestContext context);
 }

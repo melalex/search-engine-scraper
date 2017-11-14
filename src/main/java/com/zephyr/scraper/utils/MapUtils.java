@@ -26,6 +26,11 @@ public class MapUtils {
         return String.format("Map doesn't contains key '%s'", key);
     }
 
+    public <K, V> Map<K, V> merge(Map<K, V> result, Map<K, V> element) {
+        result.putAll(element);
+        return result;
+    }
+
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Builder<K, V> {
         private final Map<K, V> prototype = new HashMap<>();

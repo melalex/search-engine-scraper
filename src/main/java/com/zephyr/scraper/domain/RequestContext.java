@@ -12,7 +12,7 @@ import java.time.Duration;
 public class RequestContext {
 
     @Delegate
-    private Request request;
+    private EngineRequest engineRequest;
 
     private Proxy proxy;
     private Duration duration;

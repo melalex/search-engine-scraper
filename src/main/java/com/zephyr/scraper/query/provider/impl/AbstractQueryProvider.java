@@ -2,7 +2,7 @@ package com.zephyr.scraper.query.provider.impl;
 
 import com.zephyr.scraper.domain.Page;
 import com.zephyr.scraper.domain.QueryContext;
-import com.zephyr.scraper.domain.Request;
+import com.zephyr.scraper.domain.EngineRequest;
 import com.zephyr.scraper.domain.external.SearchEngine;
 import com.zephyr.scraper.domain.support.PageIterator;
 import com.zephyr.scraper.domain.properties.ScraperProperties;
@@ -30,7 +30,7 @@ public abstract class AbstractQueryProvider implements QueryProvider {
     private SearchEngine engine;
 
     @Override
-    public List<Request> provide(QueryContext context) {
+    public List<EngineRequest> provide(QueryContext context) {
         return StreamSupport.stream(pageIterator(), false)
                 .map(p -> getPage(context, p))
                 .collect(Collectors.toList());
@@ -40,8 +40,8 @@ public abstract class AbstractQueryProvider implements QueryProvider {
         return PageIterator.of(Page.of(FIRST, first(), pageSize(), resultCount())).asSplitIterator();
     }
 
-    private Request getPage(QueryContext context, Page page) {
-        return Request.builder()
+    private EngineRequest getPage(QueryContext context, Page page) {
+        return EngineRequest.builder()
                 .keyword(context.getKeyword())
                 .provider(engine)
                 .baseUrl(provideBaseUrl(context))

@@ -34,19 +34,20 @@ ext {
     guavaVersion = '23.3-jre'
     jsoupVersion = '1.10.3'
     csvVersion = '1.5'
+    asyncHttpVersion = '2.0.37'
 }
 
 dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter'
-    compile group: 'org.springframework', name: 'spring-webflux'
-    compile group: 'org.springframework', name: 'spring-web'
+    compile group: 'org.apache.commons', name: 'commons-lang3'
     compile group: 'io.projectreactor', name: 'reactor-core'
     compile group: 'io.projectreactor.addons', name: 'reactor-extra'
     compile group: 'io.projectreactor.ipc', name: 'reactor-netty'
-    compile group: 'org.apache.commons', name: 'commons-lang3'
+    compile group: 'io.netty', name: 'netty-all'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
 
+    compile group: 'org.asynchttpclient', name: 'async-http-client', version: asyncHttpVersion
     compile group: 'com.google.guava', name: 'guava', version: guavaVersion
     compile group: 'org.jsoup', name: 'jsoup', version: jsoupVersion
     compile group: 'org.apache.commons', name: 'commons-csv', version: csvVersion

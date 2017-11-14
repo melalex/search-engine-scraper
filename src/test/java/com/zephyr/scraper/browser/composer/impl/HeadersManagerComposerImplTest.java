@@ -3,7 +3,6 @@ package com.zephyr.scraper.browser.composer.impl;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.zephyr.scraper.browser.composer.managers.HeadersManager;
-import com.zephyr.scraper.domain.RequestContext;
 import com.zephyr.scraper.internal.DomainUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,9 +44,7 @@ public class HeadersManagerComposerImplTest {
 
     @Test
     public void shouldCompose() {
-        Map<String, List<String>> headers = new HashMap<>();
-
-        testInstance.compose(headers, DomainUtils.ANY_REQUEST_CONTEXT);
+        Map<String, List<String>> headers = testInstance.compose(DomainUtils.ANY_REQUEST_CONTEXT);
 
         assertTrue(headers.entrySet().containsAll(firstHeaders.entrySet()));
         assertTrue(headers.entrySet().containsAll(secondHeaders.entrySet()));

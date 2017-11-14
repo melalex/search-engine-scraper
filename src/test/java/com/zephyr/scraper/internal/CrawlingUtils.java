@@ -2,7 +2,7 @@ package com.zephyr.scraper.internal;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import com.zephyr.scraper.domain.Response;
+import com.zephyr.scraper.domain.EngineResponse;
 import com.zephyr.scraper.domain.external.SearchEngine;
 
 import java.io.IOException;
@@ -15,8 +15,8 @@ public final class CrawlingUtils {
 
     }
 
-    public static Response toResponse(String resource, SearchEngine engine) {
-        return Response.of(Collections.emptyMap(), getBody(resource), engine);
+    public static EngineResponse toResponse(String resource, SearchEngine engine) {
+        return EngineResponse.of(Collections.emptyMap(), getBody(resource), engine);
     }
 
     private static String getBody(String resource) {
