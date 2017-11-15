@@ -66,7 +66,6 @@ public class ScrapingFlowImplTest {
     private Clock clock;
 
     @Mock
-    @SuppressWarnings("unused")
     private ResponseSaver responseSaver;
 
     @InjectMocks
@@ -98,6 +97,8 @@ public class ScrapingFlowImplTest {
                 .expectNoEvent(DURATION)
                 .expectNext(expected())
                 .verifyComplete();
+
+        verify(responseSaver).save(engineResponse);
     }
 
     @Test
@@ -112,6 +113,8 @@ public class ScrapingFlowImplTest {
                 .expectNoEvent(BACKOFF_DURATION)
                 .expectNext(expected())
                 .verifyComplete();
+
+        verify(responseSaver).save(engineResponse);
     }
 
     @Test
@@ -135,6 +138,7 @@ public class ScrapingFlowImplTest {
 
         verify(scheduler, times(SCHEDULER_CALLS_COUNT)).createContext(engineRequest);
         verify(scheduler).report(context);
+        verify(responseSaver).save(engineResponse);
     }
 
     private SearchResult expected() {
