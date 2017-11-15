@@ -20,6 +20,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Component
@@ -66,6 +67,7 @@ public class AsyncBrowser implements Browser {
 
     private Map<String, List<String>> getHeaders(HttpHeaders headers) {
         return StreamSupport.stream(headers.spliterator(), false)
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> headers.getAll(e.getKey())));
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> headers.getAll(e.getKey()),
+                        (u, v) -> Stream.concat(u.stream(), v.stream()).collect(Collectors.toList())));
     }
 }

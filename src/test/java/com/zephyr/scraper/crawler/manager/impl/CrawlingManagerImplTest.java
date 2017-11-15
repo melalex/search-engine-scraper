@@ -15,7 +15,13 @@ import static org.junit.Assert.assertEquals;
 public class CrawlingManagerImplTest {
 
     @Mock
-    private CrawlingProvider defaultCrawlingProvider;
+    private CrawlingProvider bingCrawlingProvider;
+
+    @Mock
+    private CrawlingProvider googleCrawlingProvider;
+
+    @Mock
+    private CrawlingProvider yahooCrawlingProvider;
 
     @Mock
     private CrawlingProvider duckDuckGoCrawlingProvider;
@@ -33,17 +39,17 @@ public class CrawlingManagerImplTest {
 
     @Test
     public void shouldManageGoogle() {
-        assertEquals(defaultCrawlingProvider, testInstance.manage(SearchEngine.GOOGLE));
+        assertEquals(googleCrawlingProvider, testInstance.manage(SearchEngine.GOOGLE));
     }
 
     @Test
     public void shouldManageBing() {
-        assertEquals(defaultCrawlingProvider, testInstance.manage(SearchEngine.BING));
+        assertEquals(bingCrawlingProvider, testInstance.manage(SearchEngine.BING));
     }
 
     @Test
     public void shouldManageYahoo() {
-        assertEquals(defaultCrawlingProvider, testInstance.manage(SearchEngine.YAHOO));
+        assertEquals(yahooCrawlingProvider, testInstance.manage(SearchEngine.YAHOO));
     }
 
     @Test

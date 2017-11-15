@@ -16,7 +16,13 @@ public class CrawlingManagerImpl implements CrawlingManager {
     private Map<SearchEngine, CrawlingProvider> providers;
 
     @Setter(onMethod = @__(@Autowired))
-    private CrawlingProvider defaultCrawlingProvider;
+    private CrawlingProvider bingCrawlingProvider;
+
+    @Setter(onMethod = @__(@Autowired))
+    private CrawlingProvider googleCrawlingProvider;
+
+    @Setter(onMethod = @__(@Autowired))
+    private CrawlingProvider yahooCrawlingProvider;
 
     @Setter(onMethod = @__(@Autowired))
     private CrawlingProvider duckDuckGoCrawlingProvider;
@@ -27,9 +33,9 @@ public class CrawlingManagerImpl implements CrawlingManager {
     @PostConstruct
     public void init() {
         providers = ImmutableMap.<SearchEngine, CrawlingProvider>builder()
-                .put(SearchEngine.GOOGLE, defaultCrawlingProvider)
-                .put(SearchEngine.BING, defaultCrawlingProvider)
-                .put(SearchEngine.YAHOO, defaultCrawlingProvider)
+                .put(SearchEngine.GOOGLE, googleCrawlingProvider)
+                .put(SearchEngine.BING, bingCrawlingProvider)
+                .put(SearchEngine.YAHOO, yahooCrawlingProvider)
                 .put(SearchEngine.DUCKDUCKGO, duckDuckGoCrawlingProvider)
                 .put(SearchEngine.YANDEX, yandexCrawlingProvider)
                 .build();

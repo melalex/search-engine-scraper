@@ -16,7 +16,7 @@ scraper:
     saveResponse: true
     delay: 480000
     errorDelay: 480000
-    linkSelector: "#rso > div > div > div > div > div > h3 > a"
+    linkSelector: "#rso > div > div > div> div > div > div > div > div.f.kv._SWb > cite"
     first: 0
     resultCount: 100
     pageSize: 100
@@ -38,7 +38,7 @@ scraper:
     saveResponse: true
     delay: 480000
     errorDelay: 480000
-    linkSelector: "#web > ol > li > div > div > h3 > a"
+    linkSelector: "#web > ol > li > div > div > div > span"
     first: 1
     resultCount: 10
     pageSize: 10

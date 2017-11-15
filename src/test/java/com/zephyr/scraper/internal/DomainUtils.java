@@ -7,6 +7,7 @@ import com.zephyr.scraper.domain.external.CountryDto;
 import com.zephyr.scraper.domain.external.Keyword;
 import com.zephyr.scraper.domain.external.PlaceDto;
 import com.zephyr.scraper.domain.external.SearchEngine;
+import com.zephyr.scraper.domain.properties.ScraperProperties;
 import org.jsoup.nodes.Document;
 
 import java.util.Collections;
@@ -22,6 +23,13 @@ public final class DomainUtils {
 
     private DomainUtils() {
 
+    }
+
+    public static ScraperProperties.EngineProperties engineProperties(String linkSelector) {
+        ScraperProperties.EngineProperties engineProperties = new ScraperProperties.EngineProperties();
+        engineProperties.setLinkSelector(linkSelector);
+
+        return engineProperties;
     }
 
     public static RequestContext requestContextWith(String baseUrl) {
