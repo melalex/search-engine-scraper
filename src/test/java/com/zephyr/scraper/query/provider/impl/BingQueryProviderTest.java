@@ -1,17 +1,17 @@
 package com.zephyr.scraper.query.provider.impl;
 
-import com.google.common.collect.ImmutableMap;
 import com.zephyr.scraper.domain.QueryContext;
 import com.zephyr.scraper.internal.DomainUtils;
+import com.zephyr.scraper.utils.MapUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Map;
 
 import static com.zephyr.scraper.internal.PaginationConstants.FIRST_PAGE;
 import static com.zephyr.scraper.internal.PaginationConstants.LAST_PAGE;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 public class BingQueryProviderTest {
     private static final String URL = "https://www.bing.com";
@@ -45,7 +45,7 @@ public class BingQueryProviderTest {
 
     @Test
     public void shouldProvideParamsForLastPage() {
-        Map<String, Object> expected = ImmutableMap.<String, Object>builder()
+        Map<String, List<String>> expected = MapUtils.multiValueMapBuilder()
                 .put(QUERY, QUERY_VALUE)
                 .put(COUNT, LAST_PAGE.getPageSize())
                 .put(FIRST, LAST_PAGE.getStart())
@@ -56,7 +56,7 @@ public class BingQueryProviderTest {
 
     @Test
     public void shouldProvideParamsForFirstPage() {
-        Map<String, Object> expected = ImmutableMap.<String, Object>builder()
+        Map<String, List<String>> expected = MapUtils.multiValueMapBuilder()
                 .put(QUERY, QUERY_VALUE)
                 .put(COUNT, FIRST_PAGE.getPageSize())
                 .build();
@@ -68,7 +68,7 @@ public class BingQueryProviderTest {
     public void shouldProvideParamsForFirstPageWithLanguage() {
         context = QueryContext.of(DomainUtils.keywordWith(QUERY_VALUE, LANGUAGE), DomainUtils.ANY_PLACE);
 
-        Map<String, Object> expected = ImmutableMap.<String, Object>builder()
+        Map<String, List<String>> expected = MapUtils.multiValueMapBuilder()
                 .put(QUERY, QUERY_WITH_LANGUAGE_VALUE)
                 .put(COUNT, FIRST_PAGE.getPageSize())
                 .build();

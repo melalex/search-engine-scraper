@@ -5,6 +5,7 @@ import com.zephyr.scraper.domain.external.SearchEngine;
 import lombok.Builder;
 import lombok.Value;
 
+import java.util.List;
 import java.util.Map;
 
 @Value
@@ -17,7 +18,7 @@ public class EngineRequest {
     private String uri;
 
     private int offset;
-    private Map<String, ?> params;
+    private Map<String, List<String>> params;
 
     public String getUserAgent() {
         return keyword.getUserAgent();

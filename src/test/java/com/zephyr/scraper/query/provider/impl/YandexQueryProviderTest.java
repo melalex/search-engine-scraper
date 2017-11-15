@@ -1,15 +1,15 @@
 package com.zephyr.scraper.query.provider.impl;
 
-import com.google.common.collect.ImmutableMap;
 import com.zephyr.scraper.domain.QueryContext;
 import com.zephyr.scraper.domain.external.PlaceDto;
 import com.zephyr.scraper.internal.DomainUtils;
+import com.zephyr.scraper.utils.MapUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.List;
 import java.util.Map;
 
 import static com.zephyr.scraper.internal.PaginationConstants.FIRST_PAGE;
@@ -49,7 +49,7 @@ public class YandexQueryProviderTest {
 
     @Test
     public void shouldProvideParamsForFirstPage() {
-        Map<String, Object> expected = ImmutableMap.<String, Object>builder()
+        Map<String, List<String>> expected = MapUtils.multiValueMapBuilder()
                 .put(QUERY, context.getWord())
                 .put(COUNT, FIRST_PAGE.getPageSize())
                 .build();
@@ -59,7 +59,7 @@ public class YandexQueryProviderTest {
 
     @Test
     public void shouldProvideParamsForLastPage() {
-        Map<String, Object> expected = ImmutableMap.<String, Object>builder()
+        Map<String, List<String>> expected = MapUtils.multiValueMapBuilder()
                 .put(QUERY, QUERY_VALUE)
                 .put(COUNT, LAST_PAGE.getPageSize())
                 .put(START, LAST_PAGE.getStart())

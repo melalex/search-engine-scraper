@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -37,8 +38,8 @@ public class BingQueryProvider extends AbstractQueryProvider {
     }
 
     @Override
-    protected Map<String, ?> provideParams(QueryContext context, Page page) {
-        return MapUtils.<String, Object>builder()
+    protected Map<String, List<String>> provideParams(QueryContext context, Page page) {
+        return MapUtils.<String, String>multiValueMapBuilder()
                 .put(QUERY, getQuery(context))
                 .put(COUNT, page.getPageSize())
                 .putIfTrue(FIRST, page.getStart(), page.isNotFirst())

@@ -2,9 +2,9 @@ package com.zephyr.scraper.query.provider.impl;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.zephyr.scraper.domain.EngineRequest;
 import com.zephyr.scraper.domain.Page;
 import com.zephyr.scraper.domain.QueryContext;
-import com.zephyr.scraper.domain.EngineRequest;
 import com.zephyr.scraper.domain.external.Keyword;
 import com.zephyr.scraper.domain.properties.ScraperProperties;
 import com.zephyr.scraper.internal.DomainUtils;
@@ -38,11 +38,11 @@ public class AbstractQueryProviderTest {
     private static final String PARAM = "PARAM";
     private static final String VALUE = "VALUE";
 
-    private static final Map<String, ?> FIRST_PAGE_PARAMS = ImmutableMap.of(FIRST_PARAM, FIRST_VALUE);
-    private static final Map<String, ?> SECOND_PAGE_PARAMS = ImmutableMap.of(SECOND_PARAM, SECOND_VALUE);
-    private static final Map<String, ?> THIRD_PAGE_PARAMS = ImmutableMap.of(PARAM, VALUE);
-    private static final Map<String, ?> FOURTH_PAGE_PARAMS = ImmutableMap.of(PARAM, VALUE);
-    private static final Map<String, ?> FIFTH_PAGE_PARAMS = ImmutableMap.of(PARAM, VALUE);
+    private static final Map<String, List<String>> FIRST_PAGE_PARAMS = ImmutableMap.of(FIRST_PARAM, ImmutableList.of(FIRST_VALUE));
+    private static final Map<String, List<String>> SECOND_PAGE_PARAMS = ImmutableMap.of(SECOND_PARAM, ImmutableList.of(SECOND_VALUE));
+    private static final Map<String, List<String>> THIRD_PAGE_PARAMS = ImmutableMap.of(PARAM, ImmutableList.of(VALUE));
+    private static final Map<String, List<String>> FOURTH_PAGE_PARAMS = ImmutableMap.of(PARAM, ImmutableList.of(VALUE));
+    private static final Map<String, List<String>> FIFTH_PAGE_PARAMS = ImmutableMap.of(PARAM, ImmutableList.of(VALUE));
 
     private QueryContext context;
 
@@ -61,7 +61,7 @@ public class AbstractQueryProviderTest {
         }
 
         @Override
-        protected Map<String, ?> provideParams(QueryContext context, Page page) {
+        protected Map<String, List<String>> provideParams(QueryContext context, Page page) {
             switch (page.getPage()) {
                 case 0:
                     return FIRST_PAGE_PARAMS;
@@ -104,7 +104,7 @@ public class AbstractQueryProviderTest {
         );
     }
 
-    private EngineRequest createRequest(Map<String, ?> params, int offset) {
+    private EngineRequest createRequest(Map<String, List<String>> params, int offset) {
         return EngineRequest.builder()
                 .keyword(KEYWORD)
                 .provider(DomainUtils.ANY_PROVIDER)

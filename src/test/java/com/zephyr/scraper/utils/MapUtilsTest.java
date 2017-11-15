@@ -26,26 +26,26 @@ public class MapUtilsTest {
 
     @Test
     public void shouldPut() {
-        assertTrue(MapUtils.builder().put(FIRST_KEY, FIRST_VALUE).build().containsKey(FIRST_KEY));
+        assertTrue(MapUtils.multiValueMapBuilder().put(FIRST_KEY, FIRST_VALUE).build().containsKey(FIRST_KEY));
     }
 
     @Test
     public void shouldPutIfTrue() {
-        assertTrue(MapUtils.builder().putIfTrue(FIRST_KEY, FIRST_VALUE, true).build().containsKey(FIRST_KEY));
+        assertTrue(MapUtils.multiValueMapBuilder().putIfTrue(FIRST_KEY, FIRST_VALUE, true).build().containsKey(FIRST_KEY));
     }
 
     @Test
     public void shouldNotPutIfFalse() {
-        assertFalse(MapUtils.builder().putIfTrue(FIRST_KEY, FIRST_VALUE, false).build().containsKey(FIRST_KEY));
+        assertFalse(MapUtils.multiValueMapBuilder().putIfTrue(FIRST_KEY, FIRST_VALUE, false).build().containsKey(FIRST_KEY));
     }
 
     @Test
     public void shouldPutIfNotNull() {
-        assertTrue(MapUtils.builder().putIfNotNull(FIRST_KEY, FIRST_VALUE).build().containsKey(FIRST_KEY));
+        assertTrue(MapUtils.multiValueMapBuilder().putIfNotNull(FIRST_KEY, FIRST_VALUE).build().containsKey(FIRST_KEY));
     }
 
     @Test
     public void shouldNotPutIfNull() {
-        assertFalse(MapUtils.builder().putIfNotNull(FIRST_KEY, null).build().containsKey(FIRST_KEY));
+        assertFalse(MapUtils.multiValueMapBuilder().putIfNotNull(FIRST_KEY, null).build().containsKey(FIRST_KEY));
     }
 }

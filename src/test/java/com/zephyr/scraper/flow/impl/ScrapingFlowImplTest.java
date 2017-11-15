@@ -12,6 +12,7 @@ import com.zephyr.scraper.internal.DomainUtils;
 import com.zephyr.scraper.internal.TimeUtils;
 import com.zephyr.scraper.domain.properties.ScraperProperties;
 import com.zephyr.scraper.query.QueryConstructor;
+import com.zephyr.scraper.saver.ResponseSaver;
 import com.zephyr.scraper.scheduler.Scheduler;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,6 +64,10 @@ public class ScrapingFlowImplTest {
 
     @Mock
     private Clock clock;
+
+    @Mock
+    @SuppressWarnings("unused")
+    private ResponseSaver responseSaver;
 
     @InjectMocks
     private ScrapingFlowImpl testInstance;

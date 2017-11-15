@@ -49,7 +49,7 @@ public class AsyncBrowser implements Browser {
                 .setProxyServer(proxyConverter.convert(context.getProxy()))
                 .setFollowRedirect(true)
                 .setUrl(context.getFullUrl())
-//                .setQueryParams(context.getParams())
+                .setQueryParams(context.getParams())
                 .setHeaders(headersManagerComposer.compose(context))
                 .setHeader(REFERER, context.getBaseUrl())
                 .setHeader(USER_AGENT, context.getUserAgent())

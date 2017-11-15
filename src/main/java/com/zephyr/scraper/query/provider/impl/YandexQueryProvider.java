@@ -7,6 +7,7 @@ import com.zephyr.scraper.utils.MapUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -28,8 +29,8 @@ public class YandexQueryProvider extends AbstractQueryProvider {
     }
 
     @Override
-    protected Map<String, ?> provideParams(QueryContext context, Page page) {
-        return MapUtils.<String, Object>builder()
+    protected Map<String, List<String>> provideParams(QueryContext context, Page page) {
+        return MapUtils.<String, Object>multiValueMapBuilder()
                 .put(QUERY, context.getWord())
                 .put(COUNT, page.getPageSize())
                 .putIfTrue(START, page.getStart(), page.isNotFirst())

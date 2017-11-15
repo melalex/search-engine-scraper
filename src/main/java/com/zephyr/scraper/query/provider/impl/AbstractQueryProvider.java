@@ -69,5 +69,5 @@ public abstract class AbstractQueryProvider implements QueryProvider {
 
     protected abstract String provideBaseUrl(QueryContext context);
 
-    protected abstract Map<String, ?> provideParams(QueryContext context, Page page);
+    protected abstract Map<String, List<String>> provideParams(QueryContext context, Page page);
 }

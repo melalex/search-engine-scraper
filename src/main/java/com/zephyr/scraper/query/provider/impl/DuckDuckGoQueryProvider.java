@@ -7,6 +7,7 @@ import com.zephyr.scraper.utils.MapUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -29,8 +30,8 @@ public class DuckDuckGoQueryProvider extends AbstractQueryProvider {
     }
 
     @Override
-    protected Map<String, ?> provideParams(QueryContext context, Page page) {
-        return MapUtils.<String, Object>builder()
+    protected Map<String, List<String>> provideParams(QueryContext context, Page page) {
+        return MapUtils.multiValueMapBuilder()
                 .put(QUERY, context.getWord())
                 .put(SAFE, NOT_SAFE)
                 .put(AUTO_LOAD, NO_AUTO_LOAD)

@@ -7,6 +7,7 @@ import com.zephyr.scraper.utils.MapUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,8 +46,8 @@ public class GoogleQueryProvider extends AbstractQueryProvider {
     }
 
     @Override
-    protected Map<String, ?> provideParams(QueryContext context, Page page) {
-        return MapUtils.<String, Object>builder()
+    protected Map<String, List<String>> provideParams(QueryContext context, Page page) {
+        return MapUtils.multiValueMapBuilder()
                 .put(SAFE, IMAGE)
                 .put(AD_TEST, ON)
                 .put(GLP, ONE)

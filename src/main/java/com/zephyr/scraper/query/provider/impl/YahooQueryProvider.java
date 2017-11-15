@@ -7,6 +7,7 @@ import com.zephyr.scraper.utils.MapUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -35,8 +36,8 @@ public class YahooQueryProvider extends AbstractQueryProvider {
     }
 
     @Override
-    protected Map<String, ?> provideParams(QueryContext context, Page page) {
-        return MapUtils.<String, Object>builder()
+    protected Map<String, List<String>> provideParams(QueryContext context, Page page) {
+        return MapUtils.<String, Object>multiValueMapBuilder()
                 .put(QUERY, context.getWord())
                 .put(ENCODING, UTF8)
                 .put(COUNT, page.getPageSize())
